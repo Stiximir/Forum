@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Se connecter</title>
+</head>
+
+<body>
+    <div class="container text-center mx-auto mt-10">
+        <h1 class="text-3xl font-bold">Connexion à ton compte</h1>
+        <div class="flex bg-gray-100 rounded-lg shadow-lg p-6 mr-4">
+            <div class="mr-4">
+                <h2>
+                    Informations de connexion
+                </h2>
+                <p>
+                    Ton mot de passe doit contenir au moins
+                    12 caractères dont des lettres minuscules,
+                    des lettres majuscules et des caractères
+                    spéciaux.
+                </p>
+            </div>
+            <div class="border border-gray-500"></div>
+            <div class="mr-4">
+                <form action="/login" method="POST">
+                    <div class="form-group">
+                        <label for="username">Pseudo / Email</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input class="" type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </form>
+                <a href="/forgotten-password">Mot de passe oublié ?</a>
+            </div>
+        </div>
+        <a href="/register">Tu n’as toujours pas de compte ? Créer mon compte</a>
+    </div>
+</body>
+
+</html>
