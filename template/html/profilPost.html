@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Détails de publication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 text-slate-700">
+    <nav class="bg-sky-700 p-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_Skland.png" alt="Logo" class="h-10 w-10 rounded-full" />
+        <span class="text-white text-xl font-semibold">Réseau</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="text" placeholder="Search.." class="rounded-md px-4 py-1 bg-blue-100 focus:outline-none" />
+        <button class="bg-blue-100 px-4 py-1 rounded-md text-sky-800 font-medium">Loupe</button>
+        <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
+      </div>
+    </nav>
+    <div class="bg-[#a4c3d8] min-h-screen p-4 md:p-8">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
+        <!-- Bloc publication -->
+        <div class="bg-[#6d91ac] rounded-md p-4 w-full md:w-1/3 text-white shadow">
+          <div class="flex justify-between items-center mb-2 text-sm">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <span class="font-semibold">Pseudo</span>
+            </div>
+            <div class="text-xs text-right">xx/xx/xx<br />xx:xx</div>
+          </div>
+          <div class="bg-white text-black text-center font-bold py-8 my-4 rounded-md">
+            TITRE
+          </div>
+          <div class="border-l border-white pl-2 text-sm">
+            Description
+          </div>
+        </div>
+        <div class="flex-1 space-y-2">
+          <div class="bg-white rounded-lg px-4 py-3 shadow-sm">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <div>
+                <p class="font-semibold">Pseudo</p>
+                <p>Commentaire</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg px-4 py-3 shadow-sm">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <div>
+                <p class="font-semibold">Pseudo</p>
+                <p>Commentaire</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-md shadow p-4 space-y-4">
+            <div class="flex items-start gap-2 border-b pb-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <div>
+                <p class="font-semibold">Pseudo</p>
+                <p class="text-sm">Commentaire</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2 border-b pb-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <div>
+                <p class="font-semibold">Pseudo</p>
+                <p class="text-sm">Commentaire</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2 border rounded-md p-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <div>
+                <p class="font-semibold">Pseudo</p>
+                <p class="text-sm">Commentaire</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2 border rounded-md p-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+              <div>
+                <p class="font-semibold">Pseudo</p>
+                <p class="text-sm">Commentaire</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-6xl mx-auto mt-6 flex justify-end gap-4">
+        <button class="bg-[#e2d3b7] hover:bg-[#d8c7aa] text-slate-800 font-semibold px-4 py-2 rounded-full">
+          Archiver
+        </button>
+        <button class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-full">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
