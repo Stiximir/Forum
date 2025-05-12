@@ -1,6 +1,7 @@
 package forum
 
 import (
+	"fmt"
 	"net/http"
 	"path/filepath"
 	"text/template"
@@ -37,6 +38,23 @@ func Login(w http.ResponseWriter, r *http.Request, templatePath string) {
 		// (comparehash(paswpseudo, password) || comparehash(paswEmail, password))  remplace la vérification du mdp pas sa quand le hase sera fait
 
 		if (userId.Next() || email.Next()) && paswpseudo == password || paswEmail == password {
+
+			var userEmail string
+			err = DB.QueryRow("SELECT id FROM users WHERE email = ? ", id).Scan((&userEmail))
+			Error(err)
+
+			var userUsername string
+			err = DB.QueryRow("SELECT id FROM users WHERE username = ? ", id).Scan((&userUsername))
+			Error(err)
+
+			fmt.Println(userEmail)
+			fmt.Println(userUsername)
+
+			if userEmail == "" {
+				SetCookie(w, "user", userUsername)
+			} else {
+				SetCookie(w, "user", userEmail)
+			}
 
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return
