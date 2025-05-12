@@ -10,19 +10,22 @@ import (
 )
 
 func Error(r error) {
-	fmt.Println("Cette erreur est survenue", r)
+	if r != nil {
+		fmt.Println("Cette erreur est survenue", r)
+	}
 }
 
 func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 
-	var test string
-	DB, err := OpenDB()
-	Error(err)
+	// test base de donnée
+	// var test string
+	// DB, err := OpenDB()
+	// Error(err)
 
-	err = DB.QueryRow("SELECT username FROM users WHERE id = ?", 1).Scan(&test)
-	Error(err)
+	// err = DB.QueryRow("SELECT username FROM users WHERE id = ?", 1).Scan(&test)
+	// Error(err)
 
-	fmt.Println(test)
+	// fmt.Println(test)
 
 	tmplPath := filepath.Join(templatePath, "html", "home.html")
 
