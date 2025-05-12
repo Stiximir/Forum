@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -22,6 +24,11 @@ func main() {
 	//page acceuil
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		forum.Home(w, r, templatePath)
+	})
+
+	//page login
+	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		forum.Login(w, r, templatePath)
 	})
 
 	fmt.Println("Server started on http://localhost:8080")
