@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Connexion</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-100 text-slate-700">
-    <div class="flex items-center justify-center min-h-screen px-4">
-      <div class="bg-gray-50 shadow-md rounded-xl w-full max-w-5xl p-6 md:p-10 flex flex-col md:flex-row gap-6">
-        <!-- Informations -->
-        <div class="md:w-1/2 space-y-4">
-          <h2 class="text-xl font-semibold">Informations</h2>
-          <p>
-            Ton <strong>mot de passe</strong> doit contenir au moins<br />
-            12 caractères dont des lettres minuscules,<br />
-            des lettres majuscules et des caractères spéciaux.
-          </p>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-slate-700">
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="bg-gray-50 shadow-md rounded-xl w-full max-w-5xl p-6 md:p-10 flex flex-col md:flex-row gap-6">
+      <!-- Informations -->
+      <div class="md:w-1/2 space-y-4">
+        <h2 class="text-xl font-semibold">Informations</h2>
+        <p>
+          Ton <strong>mot de passe</strong> doit contenir au moins<br />
+          12 caractères dont des lettres minuscules,<br />
+          des lettres majuscules et des caractères spéciaux.
+        </p>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="md:w-1/2 space-y-6">
+        <h1 class="text-2xl md:text-3xl font-bold text-center md:text-left">Connexion à ton compte</h1>
+        <div class="space-y-4">
+          <div>
+            <label class="block mb-1" for="email">Pseudo/email :</label>
+            <input type="text" placeholder="Ton pseudo.."
+              class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300" />
+          </div>
+          <div>
+            <label class="block mb-1" for="password">Mot de passe :</label>
+            <input type="password" placeholder="Ton email.."
+              class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300" />
+          </div>
         </div>
 
-        <!-- Formulaire -->
-        <div class="md:w-1/2 space-y-6">
-          <h1 class="text-2xl md:text-3xl font-bold text-center md:text-left">Connexion à ton compte</h1>
-          <div class="space-y-4">
-            <div>
-              <label class="block mb-1" for="email">Pseudo/email :</label>
-              <input
-                type="text"
-                placeholder="Ton pseudo.."
-                class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-            </div>
-            <div>
-              <label class="block mb-1" for="password">Mot de passe :</label>
-              <input
-                type="password"
-                placeholder="Ton email.."
-                class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-            </div>
-          </div>
-
-          <div class="flex justify-end">
-            <button
-              class="bg-lime-300 hover:bg-lime-400 text-slate-800 font-semibold py-2 px-6 rounded-full transform hover:scale-105 transition"
-            >
-              Valider
-            </button>
-          </div>
-          <p class="text-center mt-4 text-slate-600">
-            Mot de passe oublié  ?
-            <a href="#" class="text-blue-600 hover:underline">Je le récupère !</a>
-          </p>
+        <div class="flex justify-end">
+          <button
+            class="bg-lime-300 hover:bg-lime-400 text-slate-800 font-semibold py-2 px-6 rounded-full transform hover:scale-105 transition">
+            Valider
+          </button>
         </div>
+        <p class="text-center mt-4 text-slate-600">
+          Mot de passe oublié ?
+          <a href="#" class="text-blue-600 hover:underline">Je le récupère !</a>
+        </p>
+        <p class="text-center mt-4 text-slate-600">
+          Je n'ai pas de compte ?
+          <a href="#" class="text-blue-600 hover:underline">Créer mon compte</a>
+        </p>
       </div>
     </div>
+  </div>
 
-    <p class="text-center mt-4 text-slate-600">
-      Tu n’as toujours pas de compte ?
-      <a href="#" class="text-blue-600 hover:underline">Créer mon compte</a>
-    </p>
-  </body>
+  <p class="text-center mt-4 text-slate-600">
+    Tu n’as toujours pas de compte ?
+    <a href="#" class="text-blue-600 hover:underline">Créer mon compte</a>
+  </p>
+</body>
+
 </html>
