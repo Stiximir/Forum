@@ -31,6 +31,10 @@ func main() {
 		forum.Login(w, r, templatePath)
 	})
 
+	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
+		forum.Register(w, r, templatePath)
+	})
+
 	fmt.Println("Server started on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }
