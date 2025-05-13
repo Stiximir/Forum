@@ -37,6 +37,7 @@ func main() {
 
 	http.HandleFunc("/profile", func(w http.ResponseWriter, r *http.Request) {
 		forum.Profile(w, r, templatePath)
+	})
 
 	//création de post
 	http.HandleFunc("/creatPost", func(w http.ResponseWriter, r *http.Request) {
