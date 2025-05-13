@@ -27,9 +27,12 @@ func main() {
 	})
 
 	//page login
-	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/profile", func(w http.ResponseWriter, r *http.Request) {
 		forum.Login(w, r, templatePath)
 	})
+	db, err := forum.OpenDB()
+	defer db.Close()
+	forum.DBprofile(db, nil)
 
 	fmt.Println("Server started on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
