@@ -33,7 +33,8 @@ func main() {
 
 	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		forum.Register(w, r, templatePath)
-		
+	})
+
 	http.HandleFunc("/profile", func(w http.ResponseWriter, r *http.Request) {
 		forum.Profile(w, r, templatePath)
 	})
