@@ -24,17 +24,7 @@ func Register(w http.ResponseWriter, r *http.Request, templatePath string) {
 		email := r.FormValue("email")
 		pseudo := r.FormValue("username")
 		password := r.FormValue("password")
-		passwordConfirm := r.FormValue("confirm")
-		if password != passwordConfirm {
-			log.Println("Les mots de passe ne correspondent pas.")
-			http.Redirect(w, r, "/register", http.StatusSeeOther)
-			return
-		}
-		if len(password) < 12 {
-			log.Println("Le mot de passe doit contenir au moins 12 caractères.")
-			http.Redirect(w, r, "/register", http.StatusSeeOther)
-			return
-		}
+
 		current_time := time.Now()
 
 		DB, err := OpenDB()
