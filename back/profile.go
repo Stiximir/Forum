@@ -14,6 +14,8 @@ type User struct {
 	Username string
 	Email    string
 	Password string
+	Profile_picture string
+	Created_at string
 }
 
 var UserP int = 1
@@ -27,7 +29,7 @@ func GetRecentSearches(db *sql.DB) []User {
 	defer row.Close()
 	for row.Next() { // Iterate and fetch the records from result cursor
 		item := User{}
-		err := row.Scan(&item.ID, &item.Username, &item.Email, &item.Password)
+		err := row.Scan(&item.ID, &item.Username, &item.Email, &item.Password, &item.Profile_picture, &item.Created_at)
 		if err != nil {
 			log.Fatal(err)
 		}
