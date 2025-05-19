@@ -14,22 +14,20 @@ type User struct {
 	Username string
 	Email    string
 	Password string
-	Profile_picture string
-	Created_at string
 }
 
-var UserP int = 1
+var UserP int = 3
 
 func GetRecentSearches(db *sql.DB) []User {
 	var searches []User
-	row, err := db.Query("SELECT * FROM users WHERE id = ?", UserP)
+	row, err := db.Query("SELECT id, username, email, password FROM users WHERE id = ?", UserP)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
 	for row.Next() { // Iterate and fetch the records from result cursor
 		item := User{}
-		err := row.Scan(&item.ID, &item.Username, &item.Email, &item.Password, &item.Profile_picture, &item.Created_at)
+		err := row.Scan(&item.ID, &item.Username, &item.Email, &item.Password)
 		if err != nil {
 			log.Fatal(err)
 		}

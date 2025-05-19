@@ -39,6 +39,10 @@ func main() {
 		forum.Profile(w, r, templatePath)
 	})
 
+	http.HandleFunc("/modificationProfil", func(w http.ResponseWriter, r *http.Request) {
+		forum.ModificationProfil(w, r, templatePath)
+	})
+
 	//création de post
 	http.HandleFunc("/creatPost", func(w http.ResponseWriter, r *http.Request) {
 		forum.CreatPost(w, r, templatePath)
