@@ -14,6 +14,20 @@ func requestPost(Title string, content string) {
 	defer DB.Close()
 }
 
+func updatePost(str string) {
+
+	DB, err := OpenDB()
+	Error(err)
+	defer DB.Close()
+
+	titre := "test"
+	content := "test content"
+	user := "testuser"
+
+	_, err = DB.Exec("UPDATE post SET title = ?, description = ?, WHERE user_id = ?", titre, content, user)
+	Error(err)
+}
+
 func CreatPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 	if r.Method == http.MethodPost {
 

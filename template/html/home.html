@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
 </head>
 <body>
     <a href="/login"><h1>accés page login</h1></a>
     <a href="/creatPost"><h1>crée un post</h1></a>
+
+    {{range .}}
+    <div class="bg-gray-50 border border-blue-400 rounded-xl shadow-md w-full max-w-5xl p-6 md:p-10 flex flex-col md:flex-row gap-6">
+        <h1>{{.Title}}</h1>
+        <p>{{.Content}}</p>
+    </div>
+    {{end}}
 </body>
 </html>

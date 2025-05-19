@@ -9,6 +9,11 @@ import (
 	_ "github.com/mattn/go-sqlite3" // Nécessaire pour sqlite3
 )
 
+type Post struct {
+	Title   string
+	Content string
+}
+
 func Error(r error) {
 	if r != nil {
 		fmt.Println("Cette erreur est survenue", r)
@@ -17,15 +22,27 @@ func Error(r error) {
 
 func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 
-	// test base de donnée
-	// var test string
-	// DB, err := OpenDB()
-	// Error(err)
+	DB, err := OpenDB()
+	Error(err)
+	defer DB.Close()
 
-	// err = DB.QueryRow("SELECT username FROM users WHERE id = ?", 1).Scan(&test)
-	// Error(err)
+	rows, err := DB.Query("SELECT title, description FROM posts ORDER BY id DESC")
+	Error(err)
+	defer rows.Close()
 
-	// fmt.Println(test)
+	var Postlist []Post
+
+	for rows.Next() {
+		var p Post
+
+		err := rows.Scan(&p.Title, &p.Content)
+		Error(err)
+
+		Postlist = append(Postlist, p)
+
+	}
+
+	fmt.Println(Postlist)
 
 	tmplPath := filepath.Join(templatePath, "html", "home.html")
 
@@ -35,6 +52,6 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		return
 	}
 
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, Postlist)
 
 }
