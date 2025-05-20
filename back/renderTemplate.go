@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-func RenderTemplate(w http.ResponseWriter, page string, data interface{}, templatePath string) {
+func RenderTemplate(w http.ResponseWriter, page string, data any, templatePath string) {
 	layout := filepath.Join(templatePath, "layout.html")
 	navbar := filepath.Join(templatePath, "navbar.html")
 	footer := filepath.Join(templatePath, "footer.html")

@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"path/filepath"
-	"text/template"
 )
 
 type User struct {
@@ -58,15 +56,9 @@ var data = Data{}
 func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	db, err := OpenDB()
+	Error(err)
 	defer db.Close()
-	DBprofile(db, nil)
+	//DBprofile(db, nil)
 
-	tmplPath := filepath.Join(templatePath, "html", "profile.html")
-
-	tmpl, err := template.ParseFiles(tmplPath)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	tmpl.Execute(w, data)
+	RenderTemplate(w, "profile", data, templatePath)
 }
