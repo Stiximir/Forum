@@ -16,7 +16,16 @@ type User struct {
 	Password string
 }
 
-var UserP int = 3
+var UserP int = 2
+
+func Delete(db *sql.DB, id int) (int64, error) {
+	sql := `DELETE FROM users WHERE id = ?;`
+	result, err := db.Exec(sql, id)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected()
+}
 
 func GetRecentSearches(db *sql.DB) []User {
 	var searches []User
@@ -59,6 +68,15 @@ func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	db, err := OpenDB()
 	defer db.Close()
+
+	if r.Method == http.MethodPost {
+		_, err = Delete(db, UserP)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+
 	DBprofile(db, nil)
 
 	tmplPath := filepath.Join(templatePath, "html", "profile.html")
