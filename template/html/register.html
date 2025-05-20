@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100 text-slate-700">
-    <form action="register" method="post">
+    <form action="register" method="post" onsubmit="return validate()">
     <!-- Barre de navigation -->
     <nav class="bg-sky-700 p-4 flex justify-between items-center">
       <div class="flex items-center gap-2">
@@ -65,7 +65,10 @@
             </div>
             <div>
               <label class="block mb-1">Mot de passe :</label>
-              <input
+              <input required
+                minlength="12"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}"
+                title="Le mot de passe doit contenir au moins 12 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
                 type="password"
                 placeholder="Ton mot de passe.."
                 name="password"
@@ -75,7 +78,10 @@
             </div>
             <div>
               <label class="block mb-1">Confirmation :</label>
-              <input
+              <input required
+                minlength="12"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}"
+                title="Le mot de passe doit contenir au moins 12 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
                 type="password"
                 placeholder="Confirmation de ton mot de passe.."
                 id="confirm"
@@ -102,5 +108,24 @@
       <a href="/login" class="text-blue-600 hover:underline">Me connecter</a>
     </p>
     </form>
+    <script type="text/javascript"> 
+	function validate() {
+ 
+            var a = document.getElementById("password").value;
+            var b = document.getElementById("confirm").value;
+ 
+            if (a!=b) {
+            	document.getElementById("confirm").style.borderColor ="red";
+              document.getElementById("confirm").value = "";
+              document.getElementById("confirm").placeholder = "Les mots de passe ne correspondent pas";
+              document.getElementById("confirm").style.fontStyle = "italic";
+              document.getElementById("confirm").style.fontSize = "0.8em";
+            	return false; }
+
+            else {
+            	document.getElementById("confirm").style.borderColor = "green";
+            	return true; }
+            }
+</script> 
   </body>
 </html>
