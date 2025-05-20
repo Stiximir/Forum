@@ -13,5 +13,4 @@ func OpenDB() (*sql.DB, error) {
 
 	fmt.Println("Db ouverte")
 	return db, nil
-
 }
