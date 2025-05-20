@@ -31,9 +31,20 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 		category := r.FormValue("cat")
 
-		rows, err := DB.Query("SELECT")
+		rows, err := DB.Query("SELECT title, description FROM posts WHERE category_id = ? ORDER BY id DESC", category)
 		Error(err)
+		defer rows.Close()
 
+		for rows.Next() {
+			var p Post
+
+			err := rows.Scan(&p.Title, &p.Content)
+			Error(err)
+
+			Postlist = append(Postlist, p)
+		}
+
+		RenderTemplate(w, "home", Postlist, templatePath)
 	}
 
 	rows, err := DB.Query("SELECT title, description FROM posts ORDER BY id DESC")
