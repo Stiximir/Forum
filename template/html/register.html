@@ -1,21 +1,5 @@
 {{define "content"}}
-  <form action="register" method="post">
-    <!-- Barre de navigation -->
-    <!-- <nav class="bg-sky-700 p-4 flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_Skland.png" alt="Logo" class="h-10 w-10 rounded-full" />
-        <span class="text-white text-xl font-semibold">Réseau</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <input
-          type="text"
-          placeholder="Search.."
-          class="rounded-md px-4 py-1 focus:outline-none"
-        />
-        <button class="bg-sky-100 px-4 py-1 rounded-md text-sky-800 font-medium">Loupe</button>
-        <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-      </div>
-    </nav> -->
+    <form action="register" method="post" onsubmit="return validate()">
 
     <!-- Section principale -->
     <div class="flex justify-center px-4 mt-8">
@@ -57,7 +41,10 @@
             </div>
             <div>
               <label class="block mb-1">Mot de passe :</label>
-              <input
+              <input required
+                minlength="12"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}"
+                title="Le mot de passe doit contenir au moins 12 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
                 type="password"
                 placeholder="Ton mot de passe.."
                 name="password"
@@ -67,7 +54,10 @@
             </div>
             <div>
               <label class="block mb-1">Confirmation :</label>
-              <input
+              <input required
+                minlength="12"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}"
+                title="Le mot de passe doit contenir au moins 12 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
                 type="password"
                 placeholder="Confirmation de ton mot de passe.."
                 id="confirm"
@@ -93,5 +83,22 @@
       Tu possèdes déjà un compte ?
       <a href="/login" class="text-blue-600 hover:underline">Me connecter</a>
     </p>
-  </form>
+    </form>
+    <script type="text/javascript"> 
+	function validate() {
+ 
+            var a = document.getElementById("password").value;
+            var b = document.getElementById("confirm").value;
+ 
+            if (a!=b) {
+            	document.getElementById("confirm").style.borderColor ="red";
+              document.getElementById("confirm").value = "";
+              document.getElementById("confirm").placeholder = "Les mots de passe ne correspondent pas";
+            	return false; }
+
+            else {
+            	document.getElementById("confirm").style.borderColor = "green";
+            	return true; }
+            }
+</script> 
 {{end}}

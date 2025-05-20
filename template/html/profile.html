@@ -3,9 +3,13 @@
     <div class="container">
         <div class="header">
             <p>L'id : {{.ID}}</p>
-            <p>Le pseudonyme : {{.Username}}</p>
-            <p>Le mail : {{.Email}}</p>
+            <p>Le pseudonyme : {{.Username}} </p>
+            <p>Le mail : {{.Email}} </p>
         </div>
     </div>
+    <button type="submit" 
+    class="bg-lime-300 hover:bg-lime-400 text-slate-800 font-semibold py-2 px-6 rounded-full transform hover:scale-105 transition">
+    Supprimer</button>
+    <a href="/modificationProfil">Modification du profil</a>
     </form>
 {{end}}
