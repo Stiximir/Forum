@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Créer un compte</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-100 text-slate-700">
+{{define "content"}}
+    <form action="register" method="post" onsubmit="return validate()">
     <!-- Barre de navigation -->
     <nav class="bg-sky-700 p-4 flex justify-between items-center">
       <div class="flex items-center gap-2">
@@ -47,6 +40,8 @@
               <input
                 type="text"
                 placeholder="Ton pseudo.."
+                name="username"
+                id="username"
                 class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
@@ -54,23 +49,35 @@
               <label class="block mb-1">Email :</label>
               <input
                 type="email"
+                name="email"
+                id="email"
                 placeholder="Ton email.."
                 class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
             <div>
               <label class="block mb-1">Mot de passe :</label>
-              <input
+              <input required
+                minlength="12"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}"
+                title="Le mot de passe doit contenir au moins 12 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
                 type="password"
                 placeholder="Ton mot de passe.."
+                name="password"
+                id="password"
                 class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
             <div>
               <label class="block mb-1">Confirmation :</label>
-              <input
+              <input required
+                minlength="12"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}"
+                title="Le mot de passe doit contenir au moins 12 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
                 type="password"
                 placeholder="Confirmation de ton mot de passe.."
+                id="confirm"
+                name="confirm"
                 class="w-full px-4 py-2 rounded-lg border border-blue-200 bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
@@ -90,7 +97,24 @@
     <!-- Lien vers connexion -->
     <p class="text-center mt-4 text-slate-600">
       Tu possèdes déjà un compte ?
-      <a href="#" class="text-blue-600 hover:underline">Me connecter</a>
+      <a href="/login" class="text-blue-600 hover:underline">Me connecter</a>
     </p>
-  </body>
-</html>
+    </form>
+    <script type="text/javascript"> 
+	function validate() {
+ 
+            var a = document.getElementById("password").value;
+            var b = document.getElementById("confirm").value;
+ 
+            if (a!=b) {
+            	document.getElementById("confirm").style.borderColor ="red";
+              document.getElementById("confirm").value = "";
+              document.getElementById("confirm").placeholder = "Les mots de passe ne correspondent pas";
+            	return false; }
+
+            else {
+            	document.getElementById("confirm").style.borderColor = "green";
+            	return true; }
+            }
+</script> 
+{{end}}
