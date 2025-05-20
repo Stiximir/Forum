@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="" rel="stylesheet">
-    <title>Profile</title>
-</head>
-<body>
+{{define "content"}}
     <form method="POST" id="form" action="/modificationProfil">
     <div class="container">
         <div class="header">
@@ -20,4 +12,4 @@
     Valider</button>
     </form>
     <a href="/profile">Retour au profil</a>
-</div>
+{{end}}

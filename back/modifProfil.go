@@ -4,8 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"path/filepath"
-	"text/template"
 )
 
 func Update(db *sql.DB, id int, username string) (int64, error) {
@@ -29,6 +27,7 @@ func UpdateEmail(db *sql.DB, id int, email string) (int64, error) {
 func ModificationProfil(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	db, err := OpenDB()
+	Error(err)
 	defer db.Close()
 
 	if r.Method == http.MethodPost {
@@ -52,13 +51,5 @@ func ModificationProfil(w http.ResponseWriter, r *http.Request, templatePath str
 
 	DBprofile(db, nil)
 
-	tmplPath := filepath.Join(templatePath, "html", "modificationProfil.html")
-
-	tmpl, err := template.ParseFiles(tmplPath)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	tmpl.Execute(w, data)
-	return
+	RenderTemplate(w, "modificationProfil", data, templatePath)
 }
