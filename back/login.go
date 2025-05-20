@@ -1,9 +1,19 @@
 package forum
 
 import (
+	"fmt"
 	"net/http"
 	_ "github.com/mattn/go-sqlite3"
+	"golang.org/x/crypto/bcrypt"
 )
+
+func comparehash(mdphash string, mdp string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(mdphash), []byte(mdp))
+	if err != nil {
+		return false
+	}
+	return true
+}
 
 func Login(w http.ResponseWriter, r *http.Request, templatePath string) {
 
@@ -33,7 +43,24 @@ func Login(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 		// (comparehash(paswpseudo, password) || comparehash(paswEmail, password))  remplace la vérification du mdp pas sa quand le hase sera fait
 
-		if (userId.Next() || email.Next()) && paswpseudo == password || paswEmail == password {
+		if (userId.Next() || email.Next()) && (comparehash(paswpseudo, password) || comparehash(paswEmail, password)) {
+
+			var userEmail string
+			err = DB.QueryRow("SELECT id FROM users WHERE email = ? ", id).Scan((&userEmail))
+			Error(err)
+
+			var userUsername string
+			err = DB.QueryRow("SELECT id FROM users WHERE username = ? ", id).Scan((&userUsername))
+			Error(err)
+
+			fmt.Println(userEmail)
+			fmt.Println(userUsername)
+
+			if userEmail == "" {
+				SetCookie(w, "user", userUsername)
+			} else {
+				SetCookie(w, "user", userEmail)
+			}
 
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return

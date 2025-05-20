@@ -27,6 +27,19 @@ func main() {
 		forum.Login(w, r, templatePath)
 	})
 
+	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
+		forum.Register(w, r, templatePath)
+	})
+
+	http.HandleFunc("/profile", func(w http.ResponseWriter, r *http.Request) {
+		forum.Profile(w, r, templatePath)
+	})
+
+	//création de post
+	http.HandleFunc("/creatPost", func(w http.ResponseWriter, r *http.Request) {
+		forum.CreatPost(w, r, templatePath)
+	})
+
 	fmt.Println("Server started on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }
