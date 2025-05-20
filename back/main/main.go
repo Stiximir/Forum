@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	templatePath, err := filepath.Abs(filepath.Join("..", "..", "template/html"))
+	templatePath, err := filepath.Abs(filepath.Join("..", "..", "template"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,6 +34,10 @@ func main() {
 
 	http.HandleFunc("/profile", func(w http.ResponseWriter, r *http.Request) {
 		forum.Profile(w, r, templatePath)
+	})
+
+	http.HandleFunc("/modificationProfil", func(w http.ResponseWriter, r *http.Request) {
+		forum.ModificationProfil(w, r, templatePath)
 	})
 
 	//création de post
