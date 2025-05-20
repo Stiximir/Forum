@@ -115,10 +115,11 @@
             var b = document.getElementById("confirm").value;
  
             if (a!=b) {
-            	document.getElementById("confirm").style.borderColor = "red";
+            	document.getElementById("confirm").style.borderColor ="red";
               document.getElementById("confirm").value = "";
-              document.getElementById("confirm").placeholder = "Les mots de passe ne correspondent pas"; 
-
+              document.getElementById("confirm").placeholder = "Les mots de passe ne correspondent pas";
+              document.getElementById("confirm").style.fontStyle = "italic";
+              document.getElementById("confirm").style.fontSize = "0.8em";
             	return false; }
 
             else {
