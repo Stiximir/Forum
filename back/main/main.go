@@ -3,16 +3,14 @@ package main
 import (
 	"fmt"
 	"forum"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"net/http"
 	"path/filepath"
-
-	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-
-	templatePath, err := filepath.Abs(filepath.Join("..", "..", "template"))
+	templatePath, err := filepath.Abs(filepath.Join("..", "template/html"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -21,12 +19,10 @@ func main() {
 	http.Handle("/css/", http.StripPrefix("/css", http.FileServer(http.Dir(filepath.Join(templatePath, "css")))))
 	http.Handle("/picture/", http.StripPrefix("/picture", http.FileServer(http.Dir(filepath.Join(templatePath, "picture")))))
 
-	//page acceuil
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		forum.Home(w, r, templatePath)
 	})
 
-	//page login
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		forum.Login(w, r, templatePath)
 	})

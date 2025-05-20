@@ -3,9 +3,6 @@ package forum
 import (
 	"fmt"
 	"net/http"
-	"path/filepath"
-	"text/template"
-
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -73,14 +70,9 @@ func Login(w http.ResponseWriter, r *http.Request, templatePath string) {
 		return
 	}
 
-	tmplPath := filepath.Join(templatePath, "html", "login.html")
-
-	tmpl, err := template.ParseFiles(tmplPath)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	data := map[string]interface{}{
+		"Title": "Connexion",
 	}
-
-	tmpl.Execute(w, nil)
+	RenderTemplate(w, "login", data, templatePath)
 
 }
