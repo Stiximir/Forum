@@ -20,6 +20,18 @@ type Post struct {
 
 func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 
+	var Postlist []Post
+
+	if r.Method == http.MethodPost {
+
+		r.ParseForm()
+
+		category := r.FormValue("cat")
+
+		fmt.Println(category)
+
+	}
+
 	DB, err := OpenDB()
 	Error(err)
 	defer DB.Close()
@@ -27,8 +39,6 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 	rows, err := DB.Query("SELECT title, description FROM posts ORDER BY id DESC")
 	Error(err)
 	defer rows.Close()
-
-	var Postlist []Post
 
 	for rows.Next() {
 		var p Post

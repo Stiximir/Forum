@@ -1,5 +1,4 @@
 {{define "content"}}
-<a href="/login">
     <div class="flex flex-col md:flex-row gap-6 p-6 bg-gray-100 min-h-screen">
 
         <!-- Grille des cartes -->
@@ -38,26 +37,38 @@
 
         <!-- Filtres -->
         <aside class="w-full md:w-64 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="font-semibold text-gray-700 mb-4">Filtre</h2>
-            <ul class="text-sky-600 space-y-2 text-sm mb-6">
-                <li><a href="#">Date &gt;</a></li>
-                <li><a href="#">Nombre de commentaire &gt;</a></li>
-                <li><a href="#">Nombre de like &gt;</a></li>
-            </ul>
-
-            <h2 class="font-semibold text-gray-700 mb-4">Catégories</h2>
-            <ul class="text-sm space-y-2 text-sky-700">
-                <li><label class="flex items-center gap-2"><input type="checkbox"
-                            class="accent-sky-500">Evenements</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-sky-500">Piste</label>
-                </li>
-                <li><label class="flex items-center gap-2 ml-4"><input type="checkbox" class="accent-sky-500">Story
-                        Time</label></li>
-                <li><label class="flex items-center gap-2 ml-4"><input type="checkbox"
-                            class="accent-sky-500">Astuces</label></li>
-            </ul>
-        </aside>
+                 <form method="post" id="filt">
+                 <h2 class="font-semibold text-gray-700 mb-4">Filtre</h2>
+                 <ul class="text-sky-600 space-y-2 text-sm mb-6">
+                     <li><a href="#">Date &gt;</a></li>
+                     <li><a href="#">Nombre de commentaire &gt;</a></li>
+                     <li><a href="#">Nombre de like &gt;</a></li>
+                    </ul>
+                    
+                    <h2 class="font-semibold text-gray-700 mb-4">Catégories</h2>
+                    <ul class="text-sm space-y-2 text-sky-700">
+                        <select name="cat" id="cat" onclick=filter() 
+                        class="bg-[#f2ede3] text-blue-500 px-4 py-1 rounded-md font-medium">
+                        <option value="">--Catégories--</option>
+                        <option value="1">Histoire</option>
+                        <option value="2">Events</option>
+                        <option value="3">Astuces</option>
+                        <option value="4">Exercices/Technique</option>
+                        <option value="5">Escalade sportive</option>
+                        <option value="6">Escalade en bloc</option>
+                        <option value="7">Escalade grande voie</option>
+                        <option value="8">Escalade de glace</option>
+                        <option value="9">Autres</option>
+                    </select>
+                </ul>
+            </form>
+            </aside>
 
     </div>
-</a>
+    <script>
+        function filter(){
+            let form = document.getElementById("filt")
+            form.submit()
+        }
+    </script>
 {{end}}
