@@ -3,6 +3,7 @@ package forum
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3" // Nécessaire pour sqlite3
 )
@@ -14,13 +15,29 @@ func Error(r error) {
 }
 
 type Post struct {
-	Title   string
-	Content string
+	Title     string
+	Comentary string
+	Pseudo    string
+	DateD     string
+	DateH     string
+}
+
+type Filter struct {
+	Cat string
+}
+
+type HomeData struct {
+	Post    []Post
+	Content Filter
+	Date    string
 }
 
 func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	var Postlist []Post
+
+	var HomeData HomeData
+
 	DB, err := OpenDB()
 	Error(err)
 	defer DB.Close()
@@ -31,35 +48,83 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 		category := r.FormValue("cat")
 
-		rows, err := DB.Query("SELECT title, description FROM posts WHERE category_id = ? ORDER BY id DESC", category)
-		Error(err)
-		defer rows.Close()
+		HomeData.Content.Cat = category
 
-		for rows.Next() {
-			var p Post
-
-			err := rows.Scan(&p.Title, &p.Content)
+		if category == "" {
+			rows, err := DB.Query("SELECT posts.title,users.username, posts.created_at FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
 			Error(err)
+			defer rows.Close()
 
-			Postlist = append(Postlist, p)
+			for rows.Next() {
+				var p Post
+
+				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date)
+				Error(err)
+
+				t, err := time.Parse(time.RFC3339, HomeData.Date)
+				if err != nil {
+					panic(err)
+				}
+
+				p.DateD = t.Format("2006/01/02")
+				p.DateH = t.Format("15:04")
+
+				Postlist = append(Postlist, p)
+			}
+
+		} else {
+
+			// changer requete poura fficher le pseudo
+			rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at FROM posts JOIN users ON posts.user_id = users.id WHERE category_id = ?  ORDER BY posts.created_at DESC", category)
+			Error(err)
+			defer rows.Close()
+
+			for rows.Next() {
+				var p Post
+
+				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date)
+				Error(err)
+
+				t, err := time.Parse(time.RFC3339, HomeData.Date)
+				if err != nil {
+					panic(err)
+				}
+
+				p.DateD = t.Format("2006/01/02")
+				p.DateH = t.Format("15:04")
+				Postlist = append(Postlist, p)
+			}
 		}
 
-		RenderTemplate(w, "home", Postlist, templatePath)
+		HomeData.Post = Postlist
+
+		RenderTemplate(w, "home", HomeData, templatePath)
+		return
 	}
 
-	rows, err := DB.Query("SELECT title, description FROM posts ORDER BY id DESC")
+	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
 	Error(err)
 	defer rows.Close()
 
 	for rows.Next() {
 		var p Post
 
-		err := rows.Scan(&p.Title, &p.Content)
+		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date)
 		Error(err)
+
+		t, err := time.Parse(time.RFC3339, HomeData.Date)
+		if err != nil {
+			panic(err)
+		}
+
+		p.DateD = t.Format("2006/01/02")
+		p.DateH = t.Format("15:04")
 
 		Postlist = append(Postlist, p)
 
 	}
 
-	RenderTemplate(w, "home", Postlist, templatePath)
+	HomeData.Post = Postlist
+
+	RenderTemplate(w, "home", HomeData, templatePath)
 }

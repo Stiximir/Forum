@@ -4,14 +4,14 @@
         <!-- Grille des cartes -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
             <!-- Carte -->
-            {{range .}}
+            {{range .Post}}
             <div class="bg-sky-300 rounded-lg shadow-md p-4 flex flex-col justify-between h-80">
                 <div class="flex items-center justify-between text-white text-sm">
                     <div class="flex items-center gap-2">
                         <div class="w-6 h-6 rounded-full bg-gray-300"></div>
-                        <span class="font-semibold">Pseudo</span>
+                        <span class="font-semibold">{{.Pseudo}}</span>
                     </div>
-                    <span>xx/xx/xx<br>xx:xx</span>
+                    <span>{{.DateD}}<br>{{.DateH}}</span>
                 </div>
 
                 <div class="flex-1 flex items-center justify-center text-3xl font-semibold">{{.Title}}</div>
@@ -47,18 +47,55 @@
                     
                     <h2 class="font-semibold text-gray-700 mb-4">Catégories</h2>
                     <ul class="text-sm space-y-2 text-sky-700">
-                        <select name="cat" id="cat" onclick=filter() 
+                        <select name="cat" id="cat" onclick=filter()
                         class="bg-[#f2ede3] text-blue-500 px-4 py-1 rounded-md font-medium">
+
                         <option value="">--Catégories--</option>
-                        <option value="1">Histoire</option>
+                        {{if eq .Content.Cat "1"}}
+                        <option value="1" selected>Histoire</option>
+                        {{else}}
+                        <option value="1" >Histoire</option>
+                        {{end}}
+                        {{if eq .Content.Cat "2"}}
+                        <option value="2" selected>Events</option>
+                        {{else}}
                         <option value="2">Events</option>
+                        {{end}}
+                        {{if eq .Content.Cat "3"}}
+                        <option value="3" selected>Astuces</option>
+                        {{else}}
                         <option value="3">Astuces</option>
+                        {{end}}
+                        {{if eq .Content.Cat "4"}}
+                        <option value="4" selected>Exercices/Technique</option>
+                        {{else}}
                         <option value="4">Exercices/Technique</option>
+                        {{end}}
+                        {{if eq .Content.Cat "5"}}
+                        <option value="5" selected>Escalade sportive</option>
+                        {{else}}
                         <option value="5">Escalade sportive</option>
+                        {{end}}
+                        {{if eq .Content.Cat "6"}}
+                        <option value="6" selected>Escalade en bloc</option>
+                        {{else}}
                         <option value="6">Escalade en bloc</option>
+                        {{end}}
+                        {{if eq .Content.Cat "7"}}
+                        <option value="7"select>Escalade grande voie</option>
+                        {{else}}
                         <option value="7">Escalade grande voie</option>
+                        {{end}}
+                        {{if eq .Content.Cat "8"}}
+                        <option value="8" selected>Escalade de glace</option>
+                        {{else}}
                         <option value="8">Escalade de glace</option>
+                        {{end}}
+                        {{if eq .Content.Cat "9"}}
+                        <option value="9" selected>Autres</option>
+                        {{else}}
                         <option value="9">Autres</option>
+                        {{end}}
                     </select>
                 </ul>
             </form>
