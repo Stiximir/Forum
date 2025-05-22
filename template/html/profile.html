@@ -1,15 +1,38 @@
 {{define "content"}}
-    <form method="POST" id="form" action="/profile">
-    <div class="container">
-        <div class="header">
-            <p>L'id : {{.ID}}</p>
-            <p>Le pseudonyme : {{.Username}} </p>
-            <p>Le mail : {{.Email}} </p>
-        </div>
+<div class="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
+  <form method="POST" action="/profile" id="form" class="w-full max-w-xl bg-white rounded-xl shadow-lg p-8 space-y-6">
+    
+    <div class="text-center">
+      <h1 class="text-2xl font-bold text-gray-800 mb-2">Profil utilisateur</h1>
+      <p class="text-gray-500 text-sm">Voici les informations de votre compte</p>
     </div>
-    <button type="submit" 
-    class="bg-lime-300 hover:bg-lime-400 text-slate-800 font-semibold py-2 px-6 rounded-full transform hover:scale-105 transition">
-    Supprimer</button>
-    <a href="/modificationProfil">Modification du profil</a>
-    </form>
+
+    <div class="space-y-4">
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600 font-medium">ID :</span>
+        <span class="text-gray-800">{{.ID}}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600 font-medium">Pseudonyme :</span>
+        <span class="text-gray-800">{{.Username}}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600 font-medium">Email :</span>
+        <span class="text-gray-800">{{.Email}}</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 pt-6">
+      <button type="submit"
+        class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-full transition transform hover:scale-105">
+        Supprimer le compte
+      </button>
+      <a href="/modificationProfil"
+        class="text-sky-600 hover:underline font-medium text-sm">
+        Modifier le profil
+      </a>
+    </div>
+    
+  </form>
+</div>
 {{end}}
