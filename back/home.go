@@ -15,11 +15,18 @@ func Error(r error) {
 }
 
 type Post struct {
-	Title     string
-	Comentary string
-	Pseudo    string
-	DateD     string
-	DateH     string
+	Title   string
+	Content string
+	Comment []Comment
+	Id      string
+	Pseudo  string
+	DateD   string
+	DateH   string
+}
+
+type Comment struct {
+	Pseudo  string
+	content string
 }
 
 type Filter struct {
@@ -51,14 +58,14 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		HomeData.Content.Cat = category
 
 		if category == "" {
-			rows, err := DB.Query("SELECT posts.title,users.username, posts.created_at FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
+			rows, err := DB.Query("SELECT posts.title,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
 			Error(err)
 			defer rows.Close()
 
 			for rows.Next() {
 				var p Post
 
-				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date)
+				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
 				Error(err)
 
 				t, err := time.Parse(time.RFC3339, HomeData.Date)
@@ -75,14 +82,14 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		} else {
 
 			// changer requete poura fficher le pseudo
-			rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at FROM posts JOIN users ON posts.user_id = users.id WHERE category_id = ?  ORDER BY posts.created_at DESC", category)
+			rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE category_id = ?  ORDER BY posts.created_at DESC", category)
 			Error(err)
 			defer rows.Close()
 
 			for rows.Next() {
 				var p Post
 
-				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date)
+				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
 				Error(err)
 
 				t, err := time.Parse(time.RFC3339, HomeData.Date)
@@ -102,14 +109,14 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		return
 	}
 
-	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
+	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
 	Error(err)
 	defer rows.Close()
 
 	for rows.Next() {
 		var p Post
 
-		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date)
+		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
 		Error(err)
 
 		t, err := time.Parse(time.RFC3339, HomeData.Date)

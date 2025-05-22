@@ -45,6 +45,11 @@ func main() {
 		forum.CreatPost(w, r, templatePath)
 	})
 
+	//détail des posts
+	http.HandleFunc("/DetailPost", func(w http.ResponseWriter, r *http.Request) {
+		forum.DetailPost(w, r, templatePath)
+	})
+
 	fmt.Println("Server started on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }
