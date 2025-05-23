@@ -12,6 +12,7 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 	var data HomeData
 
 	postId := r.URL.Query().Get("postId")
+	data.User = GetCookie(r, "user").Cookie
 
 	DB, err := OpenDB()
 	Error(err)
@@ -20,10 +21,9 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 	if r.Method == http.MethodPost {
 		r.ParseForm()
 
-		user := GetCookie(r, "user")
 		send := r.FormValue("message")
 
-		_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, user.Cookie, send)
+		_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, data.User, send)
 		Error(err)
 
 	}

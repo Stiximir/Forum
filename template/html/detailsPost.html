@@ -17,11 +17,9 @@
             {{.Content}}
           </div>
         </div>
-        {{end}}
 
         <div class="flex-1 space-y-4">
           <div class="bg-white rounded-md shadow p-4 space-y-4">
-          {{range .Post}}
           {{range .Comment}}
             <div class="flex items-start gap-2 border border-gray-600 rounded-md p-2">
               <div class="w-6 h-6 bg-gray-300 rounded-full">PP</div>
@@ -31,12 +29,12 @@
               </div>
             </div>
             {{end}}
-            {{end}}
           </div>
         </div>
+        {{end}}
       </div>
 
-      {{range .Post}}
+      {{if ne .User ""}}
       <form method="post" action="">
         <div class="mt-2 max-w-6xl mx-auto flex gap-2">
           <input
@@ -45,7 +43,8 @@
           placeholder="Send a message .."
           class="flex-1 rounded-full px-4 py-2 bg-white text-sm shadow border focus:outline-none"
           />
-          <button type="submit" class="bg-[#e2d3b7] hover:bg-[#d8c7aa] text-slate-800 font-semibold px-4 py-2 rounded-full transition">
+          <button type="submit" 
+          class="bg-[#e2d3b7] hover:bg-[#d8c7aa] text-slate-800 font-semibold px-4 py-2 rounded-full transition">
             Envoyer
           </button>
         </div>

@@ -16,15 +16,15 @@
     <div class="flex items-center gap-2">
         <input type="text" placeholder="Search.." class="rounded-md px-4 py-1 bg-blue-100 focus:outline-none" />
         <button class="bg-blue-100 px-4 py-1 rounded-md text-sky-800 font-medium">Loupe</button>
-        {{if eq .User ""}}
-        <a href="/login"
-         class="text-sky-100 hover:text-sky-200 font-medium">Connection</a>
-         {{else}}
+        {{if ne .User ""}}
         <a href="/profile?userId={{.User}}"
             class="text-sky-100 hover:text-sky-200 font-medium">Mon Profil</a>
             <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
             <a href="/home" onclick="deletCookieUser()"
             class="text-sky-100 hover:text-sky-200 font-medium">Déconnection</a> 
+        {{else}}
+        <a href="/login"
+            class="text-sky-100 hover:text-sky-200 font-medium">Connection</a>
         {{end}}
     </div>
     <script>
