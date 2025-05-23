@@ -1,14 +1,25 @@
 {{define "navbar"}}
 <nav class="bg-sky-700 p-4 flex justify-between items-center">
     <div class="flex items-center gap-2">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_Skland.png" alt="Logo"
-            class="h-10 w-10 rounded-full" />
-        <span class="text-white text-xl font-semibold">Réseau</span>
+        <img src="https://i.ibb.co/Sw51Rqr9/A-logo-emblem-for-SKLAND-an-outdoor-rock-climbi.png" alt="Logo"
+            class="h-10 w-10 rounded-10" />
+    </div>
+    <div class="flex gap-2">
+        <ul class="flex gap-4 text-white font-medium">
+            <li class="text-sky-100"><a href="/home">Acceuil</a></li>
+            <li class="text-sky-100"><a href="/home">Forum</a></li>
+            <li class="text-sky-100"><a href="/home">Réseau</a></li>
+            <li class="text-sky-100"><a href="/home">Contact</a></li>
+            <li class="text-sky-100"><a href="/home">À Propos</a></li>
+        </ul>
     </div>
     <div class="flex items-center gap-2">
         <input type="text" placeholder="Search.." class="rounded-md px-4 py-1 bg-blue-100 focus:outline-none" />
         <button class="bg-blue-100 px-4 py-1 rounded-md text-sky-800 font-medium">Loupe</button>
-        <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
+        <a href="/profile"
+            class="text-sky-100 hover:text-sky-200 font-medium">Mon Profil</a>
+            <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
+        </a>
     </div>
 </nav>
 {{end}}

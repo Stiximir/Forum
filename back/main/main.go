@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	templatePath, err := filepath.Abs(filepath.Join("..", "..", "template/html"))
+	templatePath, err := filepath.Abs(filepath.Join("..","..", "template/html"))
 	if err != nil {
 		log.Fatal(err)
 	}
