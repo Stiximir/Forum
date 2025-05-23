@@ -16,10 +16,22 @@
     <div class="flex items-center gap-2">
         <input type="text" placeholder="Search.." class="rounded-md px-4 py-1 bg-blue-100 focus:outline-none" />
         <button class="bg-blue-100 px-4 py-1 rounded-md text-sky-800 font-medium">Loupe</button>
-        <a href="/profile"
+        {{if eq .User ""}}
+        <a href="/login"
+         class="text-sky-100 hover:text-sky-200 font-medium">Connection</a>
+         {{else}}
+        <a href="/profile?userId={{.User}}"
             class="text-sky-100 hover:text-sky-200 font-medium">Mon Profil</a>
             <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-        </a>
+            <a href="/home" onclick="deletCookieUser()"
+            class="text-sky-100 hover:text-sky-200 font-medium">Déconnection</a> 
+        {{end}}
     </div>
+    <script>
+
+        function deletCookieUser(){
+            document.cookie = 'user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+        }
+    </script>
 </nav>
 {{end}}

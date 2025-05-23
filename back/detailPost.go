@@ -28,6 +28,7 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	}
 
+	//on récupère les info du post
 	row, err := DB.Query("SELECT posts.title, posts.description, posts.created_at, users.username, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?", postId)
 	Error(err)
 	defer row.Close()
@@ -45,6 +46,21 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	p.DateD = t.Format("2006/01/02")
 	p.DateH = t.Format("15:04")
+
+	//on récupère tous les commentaire du post
+
+	rows, err := DB.Query("SELECT comments.content, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?", postId)
+	Error(err)
+	defer rows.Close()
+
+	for rows.Next() {
+		var com Comment
+
+		err = rows.Scan(&com.Content, &com.Pseudo)
+		Error(err)
+
+		p.Comment = append(p.Comment, com)
+	}
 
 	Postlist = append(Postlist, p)
 

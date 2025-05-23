@@ -29,6 +29,7 @@ func GetCookie(r *http.Request, name string) Cook {
 	cookieFromRequest, err := r.Cookie(name)
 	if err != nil {
 		fmt.Println("cookie non trouvé")
+		return Cook{Cookie: ""}
 	}
 	//fmt.Println("Cookie 'userTest' lu avec la valeur: " + cookieFromRequest.Value)
 

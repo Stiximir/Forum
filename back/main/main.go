@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	templatePath, err := filepath.Abs(filepath.Join("..","..", "template/html"))
+	templatePath, err := filepath.Abs(filepath.Join("..", "..", "template/html"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,7 +46,7 @@ func main() {
 	})
 
 	//détail des posts
-	http.HandleFunc("/DetailPost", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/detailPost", func(w http.ResponseWriter, r *http.Request) {
 		forum.DetailPost(w, r, templatePath)
 	})
 

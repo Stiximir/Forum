@@ -20,46 +20,18 @@
         {{end}}
 
         <div class="flex-1 space-y-4">
-          <div class="space-y-2">
-            <div class="bg-white rounded-lg px-4 py-3 shadow-sm">
-              <p class="font-semibold">Me</p>
-              <p>Commentaire</p>
-            </div>
-            <div class="bg-white rounded-lg px-4 py-3 shadow-sm">
-              <p class="font-semibold">Pseudo</p>
-              <p>Commentaire</p>
-            </div>
-          </div>
-
           <div class="bg-white rounded-md shadow p-4 space-y-4">
-            <div class="flex items-start gap-2 border-b pb-2">
-              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+          {{range .Post}}
+          {{range .Comment}}
+            <div class="flex items-start gap-2 border border-gray-600 rounded-md p-2">
+              <div class="w-6 h-6 bg-gray-300 rounded-full">PP</div>
               <div>
-                <p class="font-semibold">Pseudo</p>
-                <p class="text-sm">Commentaire</p>
+                <p class="font-semibold">{{.Pseudo}}</p>
+                <p class="text-sm">{{.Content}}</p>
               </div>
             </div>
-            <div class="flex items-start gap-2 border-b pb-2">
-              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
-              <div>
-                <p class="font-semibold">Me</p>
-                <p class="text-sm">Commentaire</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-2 border rounded-md p-2">
-              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
-              <div>
-                <p class="font-semibold">Pseudo</p>
-                <p class="text-sm">Commentaire</p>
-              </div>
-            </div>
-            <div class="flex items-start gap-2 border rounded-md p-2">
-              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
-              <div>
-                <p class="font-semibold">Me</p>
-                <p class="text-sm">Commentaire</p>
-              </div>
-            </div>
+            {{end}}
+            {{end}}
           </div>
         </div>
       </div>

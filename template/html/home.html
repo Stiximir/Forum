@@ -4,6 +4,7 @@
   <!-- Grille des cartes -->
   <div class="grid grid-cols-1 animate-fade-in delay-75 md:grid-cols-2 gap-6 flex-1">
     {{range .Post}}
+    <a href="/detailPost?postId={{.Id}}">
     <div class="bg-sky-300 rounded-xl shadow-md p-4 flex flex-col justify-between h-80 hover:shadow-lg transition animate-fade-in">
       <div class="flex items-center justify-between text-white text-sm mb-2">
         <div class="flex items-center gap-2">
@@ -35,6 +36,7 @@
         <p><span class="font-semibold">Pseudo</span> — Dernier commentaire</p>
       </div>
     </div>
+    </a>
     {{end}}
   </div>
 

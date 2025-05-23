@@ -26,7 +26,7 @@ type Post struct {
 
 type Comment struct {
 	Pseudo  string
-	content string
+	Content string
 }
 
 type Filter struct {
@@ -37,6 +37,7 @@ type HomeData struct {
 	Post    []Post
 	Content Filter
 	Date    string
+	User    string
 }
 
 func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
@@ -44,6 +45,8 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 	var Postlist []Post
 
 	var HomeData HomeData
+
+	HomeData.User = GetCookie(r, "user").Cookie
 
 	DB, err := OpenDB()
 	Error(err)
