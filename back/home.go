@@ -48,10 +48,6 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	HomeData.User = GetCookie(r, "user").Cookie
 
-	DB, err := OpenDB()
-	Error(err)
-	defer DB.Close()
-
 	if r.Method == http.MethodPost {
 
 		r.ParseForm()
@@ -61,49 +57,13 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		HomeData.Content.Cat = category
 
 		if category == "" {
-			rows, err := DB.Query("SELECT posts.title,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
-			Error(err)
-			defer rows.Close()
 
-			for rows.Next() {
-				var p Post
-
-				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
-				Error(err)
-
-				t, err := time.Parse(time.RFC3339, HomeData.Date)
-				if err != nil {
-					panic(err)
-				}
-
-				p.DateD = t.Format("2006/01/02")
-				p.DateH = t.Format("15:04")
-
-				Postlist = append(Postlist, p)
-			}
+			HomeData, Postlist = getPost(HomeData, Postlist)
 
 		} else {
 
-			// changer requete poura fficher le pseudo
-			rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE category_id = ?  ORDER BY posts.created_at DESC", category)
-			Error(err)
-			defer rows.Close()
+			HomeData, Postlist = getPostFilter(HomeData, Postlist, category)
 
-			for rows.Next() {
-				var p Post
-
-				err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
-				Error(err)
-
-				t, err := time.Parse(time.RFC3339, HomeData.Date)
-				if err != nil {
-					panic(err)
-				}
-
-				p.DateD = t.Format("2006/01/02")
-				p.DateH = t.Format("15:04")
-				Postlist = append(Postlist, p)
-			}
 		}
 
 		HomeData.Post = Postlist
@@ -111,6 +71,39 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		RenderTemplate(w, "home", HomeData, templatePath)
 		return
 	}
+
+	HomeData, Postlist = getPost(HomeData, Postlist)
+
+	HomeData.Post = Postlist
+
+	RenderTemplate(w, "home", HomeData, templatePath)
+}
+
+func getLastCom(p Post) Post {
+	DB, err := OpenDB()
+	Error(err)
+	defer DB.Close()
+
+	rows, err := DB.Query("SELECT comments.content, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ? ORDER BY comments.created_at DESC LIMIT 1", p.Id)
+	Error(err)
+	defer rows.Close()
+
+	for rows.Next() {
+		var com Comment
+
+		err = rows.Scan(&com.Content, &com.Pseudo)
+		Error(err)
+
+		p.Comment = append(p.Comment, com)
+	}
+
+	return p
+}
+
+func getPost(HomeData HomeData, Postlist []Post) (HomeData, []Post) {
+	DB, err := OpenDB()
+	Error(err)
+	defer DB.Close()
 
 	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
 	Error(err)
@@ -130,11 +123,40 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		p.DateD = t.Format("2006/01/02")
 		p.DateH = t.Format("15:04")
 
+		p = getLastCom(p)
+
 		Postlist = append(Postlist, p)
 
 	}
+	return HomeData, Postlist
+}
 
-	HomeData.Post = Postlist
+func getPostFilter(HomeData HomeData, Postlist []Post, category string) (HomeData, []Post) {
+	DB, err := OpenDB()
+	Error(err)
+	defer DB.Close()
 
-	RenderTemplate(w, "home", HomeData, templatePath)
+	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE category_id = ?  ORDER BY posts.created_at DESC", category)
+	Error(err)
+	defer rows.Close()
+
+	for rows.Next() {
+		var p Post
+
+		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
+		Error(err)
+
+		t, err := time.Parse(time.RFC3339, HomeData.Date)
+		if err != nil {
+			panic(err)
+		}
+
+		p.DateD = t.Format("2006/01/02")
+		p.DateH = t.Format("15:04")
+
+		p = getLastCom(p)
+
+		Postlist = append(Postlist, p)
+	}
+	return HomeData, Postlist
 }

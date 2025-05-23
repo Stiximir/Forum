@@ -31,10 +31,11 @@
         </div>
         <div class="bg-white w-6 h-6 flex items-center justify-center rounded text-sky-500 font-semibold text-sm">23</div>
       </div>
-
+      {{range .Comment}}
       <div class="text-white text-xs mt-3">
-        <p><span class="font-semibold">Pseudo</span> — Dernier commentaire</p>
+        <p><span class="font-bold">{{.Pseudo}}</span> : {{.Content}}</p>
       </div>
+      {{end}}
     </div>
     </a>
     {{end}}
