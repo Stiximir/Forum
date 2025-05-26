@@ -23,11 +23,14 @@
 
       <div class="flex items-center justify-between mt-4">
         <div class="flex items-center gap-2 text-white">
+           <button style="background-color: transparent; border: none; cursor: pointer;" {{if eq $.User ""}} disabled {{end}}
+            class="flex items-center gap-1 hover:text-sky-500 transition"> 
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path
               d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.95a1 1 0 00.95.69h4.148c.969 0 1.371 1.24.588 1.81l-3.36 2.444a1 1 0 00-.364 1.118l1.285 3.95c.3.921-.755 1.688-1.538 1.118l-3.36-2.444a1 1 0 00-1.175 0l-3.36 2.444c-.783.57-1.838-.197-1.538-1.118l1.285-3.95a1 1 0 00-.364-1.118L2.025 9.377c-.783-.57-.38-1.81.588-1.81h4.149a1 1 0 00.95-.69l1.286-3.95z" />
           </svg>
           <span>134</span>
+          </button>
         </div>
         <div class="bg-white w-6 h-6 flex items-center justify-center rounded text-sky-500 font-semibold text-sm">23</div>
       </div>
