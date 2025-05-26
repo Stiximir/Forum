@@ -10,7 +10,9 @@ import (
 
 func comparehash(mdphash string, mdp string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(mdphash), []byte(mdp))
-	Error(err)
+	if err != nil {
+		return false
+	}
 	return true
 }
 
@@ -39,8 +41,6 @@ func Login(w http.ResponseWriter, r *http.Request, templatePath string) {
 		var paswEmail string
 		err = DB.QueryRow("SELECT password FROM users WHERE email = ? ", id).Scan((&paswEmail))
 		Error(err)
-
-		// (comparehash(paswpseudo, password) || comparehash(paswEmail, password))  remplace la vérification du mdp pas sa quand le hase sera fait
 
 		if (userId.Next() || email.Next()) && (comparehash(paswpseudo, password) || comparehash(paswEmail, password)) {
 
