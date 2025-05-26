@@ -12,15 +12,17 @@ func ApiLike(w http.ResponseWriter, r *http.Request, templatePath string) {
 	Error(err)
 	defer db.Close()
 
+	userID := GetCookie(r, "user").Cookie
+
 	if r.Method == http.MethodPost {
-		postID := r.FormValue("postID")
 		action := r.FormValue("action")
+    	postID := r.FormValue("postID")
 		if action == "like" {
-			_, err = db.Exec("INSERT INTO likes (post_id, user_id) VALUES (?, ?)", postID, UserP)
-			Error(err)
+    		_, err = db.Exec("INSERT OR IGNORE INTO likes (post_id, user_id) VALUES (?, ?)", postID, userID)
+    		Error(err)
 		} else if action == "unlike" {
-			_, err = db.Exec("DELETE FROM likes WHERE post_id = ? AND user_id = ?", postID, UserP)
-			Error(err)
+    		_, err = db.Exec("DELETE FROM likes WHERE post_id = ? AND user_id = ?", postID, userID)
+    		Error(err)
 		}
 	}
 
@@ -29,9 +31,9 @@ func ApiLike(w http.ResponseWriter, r *http.Request, templatePath string) {
 	err = db.QueryRow("SELECT COUNT(*) FROM likes WHERE post_id = ?", postID).Scan(&likeCount)
 	Error(err)
 	var hasLiked bool
-	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM likes WHERE post_id = ? AND user_id = ?)", postID, UserP).Scan(&hasLiked)
+	err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM likes WHERE post_id = ? AND user_id = ?)", postID, userID).Scan(&hasLiked)
 	if err != nil {
-		if err.Error() != "sql: no rows in result set" {
+		if err.Error() != "Nothing found" {
 			Error(err)
 		}
 	}
