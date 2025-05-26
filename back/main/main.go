@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"forum"
-	"log"
 	"net/http"
 	"path/filepath"
 
