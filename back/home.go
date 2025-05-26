@@ -15,13 +15,14 @@ func Error(r error) {
 }
 
 type Post struct {
-	Title   string
-	Content string
-	Comment []Comment
-	Id      string
-	Pseudo  string
-	DateD   string
-	DateH   string
+	Title     string
+	Content   string
+	Comment   []Comment
+	Id        string
+	CreatorId string
+	Pseudo    string
+	DateD     string
+	DateH     string
 }
 
 type Comment struct {
