@@ -5,9 +5,15 @@ import (
 	"time"
 )
 
+type test struct {
+	Id   string `json:"id"`
+	Text string `json:"text"`
+}
+
 func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	var Postlist []Post
+
 	var p Post
 	var data HomeData
 
@@ -20,7 +26,6 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	if r.Method == http.MethodPost {
 		r.ParseForm()
-
 		send := r.FormValue("message")
 
 		if send == "supp" {
@@ -61,14 +66,14 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	//on récupère tous les commentaire du post
 
-	rows, err := DB.Query("SELECT comments.content, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?", postId)
+	rows, err := DB.Query("SELECT comments.content, users.username, comments.Id, comments.user_id FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?", postId)
 	Error(err)
 	defer rows.Close()
 
 	for rows.Next() {
 		var com Comment
 
-		err = rows.Scan(&com.Content, &com.Pseudo)
+		err = rows.Scan(&com.Content, &com.Pseudo, &com.Id, &com.CreatorId)
 		Error(err)
 
 		p.Comment = append(p.Comment, com)

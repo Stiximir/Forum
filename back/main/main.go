@@ -50,6 +50,16 @@ func main() {
 		forum.DetailPost(w, r, templatePath)
 	})
 
+	//updatePost
+	http.HandleFunc("/updatePost", func(w http.ResponseWriter, r *http.Request) {
+		forum.UpdatePost(w, r, templatePath)
+	})
+
+	//updateComment
+	http.HandleFunc("/updateComment", func(w http.ResponseWriter, r *http.Request) {
+		forum.UpdateComment(w, r, templatePath)
+	})
+
 	fmt.Println("Server started on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }
