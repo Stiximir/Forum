@@ -11,10 +11,7 @@ import (
 )
 
 func main() {
-	templatePath, err := filepath.Abs(filepath.Join("..", "..", "template/html"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	templatePath := "/var/www/Forum/template"
 
 	http.Handle("/html/", http.StripPrefix("/html", http.FileServer(http.Dir(filepath.Join(templatePath, "html")))))
 	http.Handle("/css/", http.StripPrefix("/css", http.FileServer(http.Dir(filepath.Join(templatePath, "css")))))
