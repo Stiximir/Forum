@@ -10,14 +10,14 @@ import (
 )
 
 func main() {
-	templatePath := "/var/www/Forum/template/html"
+	templatePath := "/var/www/Forum/template/"
 
 	http.Handle("/html/", http.StripPrefix("/html", http.FileServer(http.Dir(filepath.Join(templatePath, "html")))))
 	http.Handle("/css/", http.StripPrefix("/css", http.FileServer(http.Dir(filepath.Join(templatePath, "css")))))
 	http.Handle("/picture/", http.StripPrefix("/picture", http.FileServer(http.Dir(filepath.Join(templatePath, "picture")))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		forum.Home(w, r, templatePath)
+		fmt.Fprintln(w, "✅ Backend Go fonctionne bien !")
 	})
 
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
