@@ -1,15 +1,50 @@
 {{define "content"}}
-    <form method="POST" id="form" action="/modificationProfil">
-    <div class="container">
-        <div class="header">
-            <p>L'id : {{.ID}}</p>
-            <p>Le pseudonyme : {{.Username}} <input type="text" id="pseudo" name="pseudo" placeholder="Ton pseudo..."></p>
-            <p>Le mail : {{.Email}} <input type="text" id="email" name="email" placeholder="Ton email..."></p>
-        </div>
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+</style>
+
+<div class="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
+  <form method="POST" action="/modificationProfil" id="form"
+        class="w-full max-w-lg bg-white rounded-xl shadow-lg p-8 space-y-6 animate-fade-in">
+
+    <h2 class="text-2xl font-bold text-gray-800 text-center">Modifier ton profil</h2>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Ton ID</label>
+        <input type="text" value="{{.ID}}" disabled
+               class="w-full px-4 py-2 bg-gray-100 text-gray-600 rounded border border-gray-300 cursor-not-allowed">
+      </div>
+
+      <div>
+        <label for="pseudo" class="block text-sm font-medium text-gray-700">Pseudonyme</label>
+        <input type="text" id="pseudo" name="pseudo" placeholder="Ton pseudo..."
+               class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-sky-400 focus:outline-none"
+               value="{{.Username}}">
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" placeholder="Ton email..."
+               class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-sky-400 focus:outline-none"
+               value="{{.Email}}">
+      </div>
     </div>
-    <button type="submit" 
-    class="bg-lime-300 hover:bg-lime-400 text-slate-800 font-semibold py-2 px-6 rounded-full transform hover:scale-105 transition">
-    Valider</button>
-    </form>
-    <a href="/profile">Retour au profil</a>
+
+    <div class="flex items-center justify-between mt-6">
+      <a href="/profile"
+         class="text-sky-600 text-sm hover:underline">← Retour au profil</a>
+      <button type="submit"
+              class="bg-lime-400 hover:bg-lime-500 text-slate-800 font-semibold py-2 px-6 rounded-full transform hover:scale-105 transition">
+        Valider
+      </button>
+    </div>
+  </form>
+</div>
 {{end}}

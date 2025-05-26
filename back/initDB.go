@@ -2,7 +2,6 @@ package forum
 
 import (
 	"database/sql"
-	"fmt"
 )
 
 func OpenDB() (*sql.DB, error) {
@@ -10,7 +9,5 @@ func OpenDB() (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println("Db ouverte")
 	return db, nil
 }

@@ -3,15 +3,14 @@ package forum
 import (
 	"fmt"
 	"net/http"
+
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func comparehash(mdphash string, mdp string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(mdphash), []byte(mdp))
-	if err != nil {
-		return false
-	}
+	Error(err)
 	return true
 }
 
@@ -72,6 +71,7 @@ func Login(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	data := map[string]interface{}{
 		"Title": "Connexion",
+		"User":  "",
 	}
 	RenderTemplate(w, "login", data, templatePath)
 

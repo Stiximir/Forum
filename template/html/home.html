@@ -1,63 +1,84 @@
 {{define "content"}}
-<a href="/login">
-    <div class="flex flex-col md:flex-row gap-6 p-6 bg-gray-100 min-h-screen">
+<div class="flex flex-col md:flex-row gap-6 p-6 bg-gray-100 min-h-screen">
 
-        <!-- Grille des cartes -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
-            <!-- Carte -->
-            {{range .}}
-            <div class="bg-sky-300 rounded-lg shadow-md p-4 flex flex-col justify-between h-80">
-                <div class="flex items-center justify-between text-white text-sm">
-                    <div class="flex items-center gap-2">
-                        <div class="w-6 h-6 rounded-full bg-gray-300"></div>
-                        <span class="font-semibold">Pseudo</span>
-                    </div>
-                    <span>xx/xx/xx<br>xx:xx</span>
-                </div>
-
-                <div class="flex-1 flex items-center justify-center text-3xl font-semibold">{{.Title}}</div>
-
-                <div class="flex items-center justify-between mt-4">
-                    <div class="flex items-center gap-2 text-white">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.95a1 1 0 00.95.69h4.148c.969 0 1.371 1.24.588 1.81l-3.36 2.444a1 1 0 00-.364 1.118l1.285 3.95c.3.921-.755 1.688-1.538 1.118l-3.36-2.444a1 1 0 00-1.175 0l-3.36 2.444c-.783.57-1.838-.197-1.538-1.118l1.285-3.95a1 1 0 00-.364-1.118L2.025 9.377c-.783-.57-.38-1.81.588-1.81h4.149a1 1 0 00.95-.69l1.286-3.95z" />
-                        </svg>
-                        <span>134</span>
-                    </div>
-                    <div class="bg-white w-6 h-6 rounded-sm text-center text-sky-500 text-sm font-semibold">23</div>
-                </div>
-
-                <div class="text-white text-sm mt-2">
-                    <span class="font-semibold">Pseudo</span><br>
-                    <span class="text-xs">Dernier commentaire</span>
-                </div>
-            </div>
-            {{end}}
+  <!-- Grille des cartes -->
+  <div class="grid grid-cols-1 animate-fade-in delay-75 md:grid-cols-2 gap-6 flex-1">
+    {{range .Post}}
+    <a href="/detailPost?postId={{.Id}}">
+    <div class="bg-sky-300 rounded-xl shadow-md p-4 flex flex-col justify-between h-80 hover:shadow-lg transition animate-fade-in">
+      <div class="flex items-center justify-between text-white text-sm mb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+          <span class="font-semibold">{{.Pseudo}}</span>
         </div>
+        <div class="text-right leading-tight">
+          <p>{{.DateD}}</p>
+          <p>{{.DateH}}</p>
+        </div>
+      </div>
 
-        <!-- Filtres -->
-        <aside class="w-full md:w-64 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="font-semibold text-gray-700 mb-4">Filtre</h2>
-            <ul class="text-sky-600 space-y-2 text-sm mb-6">
-                <li><a href="#">Date &gt;</a></li>
-                <li><a href="#">Nombre de commentaire &gt;</a></li>
-                <li><a href="#">Nombre de like &gt;</a></li>
-            </ul>
+      <div class="flex-1 flex items-center justify-center text-3xl font-bold text-white text-center px-2">
+        {{.Title}}
+      </div>
 
-            <h2 class="font-semibold text-gray-700 mb-4">Catégories</h2>
-            <ul class="text-sm space-y-2 text-sky-700">
-                <li><label class="flex items-center gap-2"><input type="checkbox"
-                            class="accent-sky-500">Evenements</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-sky-500">Piste</label>
-                </li>
-                <li><label class="flex items-center gap-2 ml-4"><input type="checkbox" class="accent-sky-500">Story
-                        Time</label></li>
-                <li><label class="flex items-center gap-2 ml-4"><input type="checkbox"
-                            class="accent-sky-500">Astuces</label></li>
-            </ul>
-        </aside>
-
+      <div class="flex items-center justify-between mt-4">
+        <div class="flex items-center gap-2 text-white">
+           <button style="background-color: transparent; border: none; cursor: pointer;" {{if eq $.User ""}} disabled {{end}}
+            class="flex items-center gap-1 hover:text-sky-500 transition"> 
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.95a1 1 0 00.95.69h4.148c.969 0 1.371 1.24.588 1.81l-3.36 2.444a1 1 0 00-.364 1.118l1.285 3.95c.3.921-.755 1.688-1.538 1.118l-3.36-2.444a1 1 0 00-1.175 0l-3.36 2.444c-.783.57-1.838-.197-1.538-1.118l1.285-3.95a1 1 0 00-.364-1.118L2.025 9.377c-.783-.57-.38-1.81.588-1.81h4.149a1 1 0 00.95-.69l1.286-3.95z" />
+          </svg>
+          <span>134</span>
+          </button>
+        </div>
+        <div class="bg-white w-6 h-6 flex items-center justify-center rounded text-sky-500 font-semibold text-sm">23</div>
+      </div>
+      {{range .Comment}}
+      <div class="text-white text-xs mt-3">
+        <p><span class="font-bold">{{.Pseudo}}</span> : {{.Content}}</p>
+      </div>
+      {{end}}
     </div>
-</a>
+    </a>
+    {{end}}
+  </div>
+
+  <!-- Filtres -->
+  <aside class="w-full md:w-64 bg-white p-6 rounded-xl shadow-md">
+    <form method="POST" id="filt">
+      <h2 class="font-semibold text-gray-700 mb-4 text-lg">Filtres</h2>
+
+      <select name="cat" id="cat" onchange="filter()"
+        class="w-full bg-gray-50 border border-gray-300 text-gray-700 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-sky-400">
+        <option value="">-- Catégories --</option>
+        <option value="1" {{if eq .Content.Cat "1"}}selected{{end}}>Histoire</option>
+        <option value="2" {{if eq .Content.Cat "2"}}selected{{end}}>Events</option>
+        <option value="3" {{if eq .Content.Cat "3"}}selected{{end}}>Astuces</option>
+        <option value="4" {{if eq .Content.Cat "4"}}selected{{end}}>Exercices/Technique</option>
+        <option value="5" {{if eq .Content.Cat "5"}}selected{{end}}>Escalade sportive</option>
+        <option value="6" {{if eq .Content.Cat "6"}}selected{{end}}>Escalade en bloc</option>
+        <option value="7" {{if eq .Content.Cat "7"}}selected{{end}}>Escalade grande voie</option>
+        <option value="8" {{if eq .Content.Cat "8"}}selected{{end}}>Escalade de glace</option>
+        <option value="9" {{if eq .Content.Cat "9"}}selected{{end}}>Autres</option>
+      </select>
+    </form>
+  </aside>
+
+</div>
+
+<script>
+  function filter() {
+    document.getElementById("filt").submit();
+  }
+</script>
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+</style>
 {{end}}
