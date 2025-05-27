@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "home",
         "comment",
-        "password"
+        "password",
+        "merge"
     ]
 }
