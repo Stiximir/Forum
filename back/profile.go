@@ -14,9 +14,9 @@ type User struct {
 	Password string
 }
 
-var UserP int = 2
+var UserP string = "2"
 
-func Delete(db *sql.DB, id int) (int64, error) {
+func Delete(db *sql.DB, id string) (int64, error) {
 	sql := `DELETE FROM users WHERE id = ?;`
 	result, err := db.Exec(sql, id)
 	if err != nil {
@@ -58,6 +58,7 @@ type Data struct {
 	ID       int
 	Username string
 	Email    string
+	User     string
 }
 
 var data = Data{}
@@ -68,6 +69,8 @@ func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
 	Error(err)
 	defer db.Close()
 
+	UserP = r.URL.Query().Get("userId")
+
 	if r.Method == http.MethodPost {
 		_, err = Delete(db, UserP)
 		if err != nil {
@@ -75,7 +78,7 @@ func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
 			return
 		}
 	}
-
+	data.User = "1"
 	DBprofile(db, nil)
 
 	RenderTemplate(w, "profile", data, templatePath)

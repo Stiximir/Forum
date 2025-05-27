@@ -15,14 +15,17 @@ func Error(r error) {
 }
 
 type Post struct {
-	Title     string
-	Content   string
-	Comment   []Comment
-	Id        string
+
+	Title   string
+	Content string
+	Comment []Comment
 	CreatorId string
-	Pseudo    string
-	DateD     string
-	DateH     string
+	Id      string
+	Pseudo  string
+	DateD   string
+	DateH   string
+	LikeCount int 
+    HasLiked  bool 
 }
 
 type Comment struct {
@@ -126,6 +129,14 @@ func getPost(HomeData HomeData, Postlist []Post) (HomeData, []Post) {
 
 		p = getLastCom(p)
 
+		err = DB.QueryRow("SELECT COUNT(*) FROM likes WHERE post_id = ?", p.Id).Scan(&p.LikeCount)
+    	Error(err)
+    	userID := HomeData.User
+    	if userID != "" {
+        	err = DB.QueryRow("SELECT EXISTS(SELECT 1 FROM likes WHERE post_id = ? AND user_id = ?)", p.Id, userID).Scan(&p.HasLiked)
+        	Error(err)
+    	}
+
 		Postlist = append(Postlist, p)
 
 	}
@@ -156,6 +167,14 @@ func getPostFilter(HomeData HomeData, Postlist []Post, category string) (HomeDat
 		p.DateH = t.Format("15:04")
 
 		p = getLastCom(p)
+
+		err = DB.QueryRow("SELECT COUNT(*) FROM likes WHERE post_id = ?", p.Id).Scan(&p.LikeCount)
+    	Error(err)
+    	userID := HomeData.User
+    	if userID != "" {
+        	err = DB.QueryRow("SELECT EXISTS(SELECT 1 FROM likes WHERE post_id = ? AND user_id = ?)", p.Id, userID).Scan(&p.HasLiked)
+        	Error(err)
+    	}
 
 		Postlist = append(Postlist, p)
 	}

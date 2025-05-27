@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func Update(db *sql.DB, id int, username string) (int64, error) {
+func Update(db *sql.DB, id string, username string) (int64, error) {
 	sql := `UPDATE users SET username = ? WHERE id = ?;`
 	result, err := db.Exec(sql, username, id)
 	if err != nil {
@@ -15,7 +15,7 @@ func Update(db *sql.DB, id int, username string) (int64, error) {
 	return result.RowsAffected()
 }
 
-func UpdateEmail(db *sql.DB, id int, email string) (int64, error) {
+func UpdateEmail(db *sql.DB, id string, email string) (int64, error) {
 	sql := `UPDATE users SET email = ? WHERE id = ?;`
 	result, err := db.Exec(sql, email, id)
 	if err != nil {
