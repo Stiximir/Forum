@@ -46,14 +46,15 @@ func main() {
 
 	mux.HandleFunc("/apiLike", func(w http.ResponseWriter, r *http.Request) {
 		forum.ApiLike(w, r, templatePath)
+	})
 
 	//updatePost
-	mux.HandleFunc.HandleFunc("/updatePost", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/updatePost", func(w http.ResponseWriter, r *http.Request) {
 		forum.UpdatePost(w, r, templatePath)
 	})
 
 	//updateComment
-	mux.HandleFunc.HandleFunc("/updateComment", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/updateComment", func(w http.ResponseWriter, r *http.Request) {
 		forum.UpdateComment(w, r, templatePath)
 	})
 
