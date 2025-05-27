@@ -23,18 +23,30 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 		send := r.FormValue("message")
 
-		_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, data.User, send)
+		if send == "supp" {
+			_, err = DB.Exec("DELETE FROM posts WHERE id = ? ", postId)
+			Error(err)
+			_, err = DB.Exec("DELETE FROM comments WHERE post_id = ?", postId)
+			Error(err)
+
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+
+		} else {
+
+			_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, data.User, send)
+		}
 		Error(err)
 
 	}
 
 	//on récupère les info du post
-	row, err := DB.Query("SELECT posts.title, posts.description, posts.created_at, users.username, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?", postId)
+	row, err := DB.Query("SELECT posts.title, posts.description, posts.created_at, users.username, posts.id, posts.user_id FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?", postId)
 	Error(err)
 	defer row.Close()
 
 	for row.Next() {
-		err = row.Scan(&p.Title, &p.Content, &data.Date, &p.Pseudo, &p.Id)
+		err = row.Scan(&p.Title, &p.Content, &data.Date, &p.Pseudo, &p.Id, &p.CreatorId)
 		Error(err)
 
 	}

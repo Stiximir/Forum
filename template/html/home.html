@@ -4,7 +4,6 @@
   <!-- Grille des cartes -->
   <div class="grid grid-cols-1 animate-fade-in delay-75 md:grid-cols-2 gap-6 flex-1">
     {{range .Post}}
-    <a href="/detailPost?postId={{.Id}}">
     <div class="bg-sky-300 rounded-xl shadow-md p-4 flex flex-col justify-between h-80 hover:shadow-lg transition animate-fade-in">
       <div class="flex items-center justify-between text-white text-sm mb-2">
         <div class="flex items-center gap-2">
@@ -16,10 +15,12 @@
           <p>{{.DateH}}</p>
         </div>
       </div>
-
+      
+      <a href="/detailPost?postId={{.Id}}">
       <div class="flex-1 flex items-center justify-center text-3xl font-bold text-white text-center px-2">
         {{.Title}}
       </div>
+      </a>
 
       <div class="flex items-center justify-between mt-4">
         <div class="flex items-center gap-2 text-white">
@@ -40,7 +41,6 @@
       </div>
       {{end}}
     </div>
-    </a>
     {{end}}
   </div>
 

@@ -35,20 +35,40 @@
       </div>
 
       {{if ne .User ""}}
-      <form method="post" action="">
+      <form id="chat" method="post" action="">
         <div class="mt-2 max-w-6xl mx-auto flex gap-2">
           <input
           type="text"
+          id="message"
           name="message"
           placeholder="Send a message .."
           class="flex-1 rounded-full px-4 py-2 bg-white text-sm shadow border focus:outline-none"
           />
-          <button type="submit" 
+          <button type="submit"
           class="bg-[#e2d3b7] hover:bg-[#d8c7aa] text-slate-800 font-semibold px-4 py-2 rounded-full transition">
             Envoyer
           </button>
         </div>
       </form>
       {{end}}
+
+      {{range .Post}}
+        {{if eq .CreatorId .Id}}
+          <Button onclick = supp()
+          name="supp">
+          supprimer 
+          </Button>
+        {{end}}
+      {{end}}
+
+      <script>
+
+        function supp(){
+          document.getElementById('message').value='supp'
+          document.getElementById('chat').submit()
+        }
+
+      </script>
+
     </div>
  {{end}}
