@@ -61,7 +61,7 @@
       {{end}}
 
       {{range .Post}}
-        {{if eq .CreatorId .Id}}
+        {{if eq .CreatorId $.User}}
           <Button onclick = supp()
           name="supp">
           supprimer 
@@ -97,6 +97,7 @@
   }
 
         function saveComment(commentId) {
+        event.preventDefault()
   const content = document.getElementById('comment-' + commentId).innerText;
   fetch('/updateComment', {
     method: 'POST',
