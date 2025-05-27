@@ -84,9 +84,9 @@
       headers: {
         'Content-Type': 'application/json'
       },
-      {{range .Post}}
-     body: JSON.stringify({ id: {{.Id}}, text: content }) {{end}}
-    })
+        {{range .Post}}
+      body: JSON.stringify({ id: {{.Id}}, text: content }) {{end}}
+      })
     .then(response => {
       if (response.ok) {
         alert("Post mis à jour !");
@@ -97,7 +97,7 @@
   }
 
         function saveComment(commentId) {
-        event.preventDefault()
+          event.preventDefault();
   const content = document.getElementById('comment-' + commentId).innerText;
   fetch('/updateComment', {
     method: 'POST',

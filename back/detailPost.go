@@ -40,6 +40,7 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 		} else {
 
 			_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, data.User, send)
+
 		}
 		Error(err)
 
