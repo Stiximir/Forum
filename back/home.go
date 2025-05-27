@@ -29,8 +29,10 @@ type Post struct {
 }
 
 type Comment struct {
-	Pseudo  string
-	Content string
+	Pseudo    string
+	Content   string
+	CreatorId string
+	Id        string
 }
 
 type Filter struct {
