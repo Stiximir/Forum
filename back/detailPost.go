@@ -19,6 +19,7 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	postId := r.URL.Query().Get("postId")
 	data.User = GetCookie(r, "user").Cookie
+	message := r.URL.Query().Get("message")
 
 	DB, err := OpenDB()
 	Error(err)
@@ -37,7 +38,7 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return
 
-		} else {
+		} else if message == "true" {
 
 			_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, data.User, send)
 
