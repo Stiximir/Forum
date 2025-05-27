@@ -34,6 +34,7 @@
               </div>
               {{if eq .CreatorId $.User}}
                 <button style="background-color: transparent; border: none; cursor: pointer;" onclick="saveComment({{.Id}})">Modifier</button> 
+                <button style="background-color: transparent; border: none; cursor: pointer;" onclick="deleteCom({{.Id}})">Supprimer</button>
               {{end}}
             </div>
             {{end}}
@@ -116,6 +117,23 @@
       alert("Erreur lors de la mise à jour.");
     }
   });
+}
+
+function deleteCom(id){
+  fetch("/deleteCom",{
+    method: 'POST',
+    headers: {
+      "Content-Type" : "application/json"
+    },
+    body: JSON.stringify({id:id})
+  }).then(reponse => {
+    if (reponse.ok){
+      alert("Commentaire Delete")
+      window.location.href = '/detailPost?postId={{range .Post}}{{.Id}}{{end}}&message=false';
+    } else {
+      alert("Erreur lors du delet")
+    }
+  })
 }
 
       </script>
