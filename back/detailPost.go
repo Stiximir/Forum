@@ -5,14 +5,21 @@ import (
 	"time"
 )
 
+type test struct {
+	Id   string `json:"id"`
+	Text string `json:"text"`
+}
+
 func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	var Postlist []Post
+
 	var p Post
 	var data HomeData
 
 	postId := r.URL.Query().Get("postId")
 	data.User = GetCookie(r, "user").Cookie
+	message := r.URL.Query().Get("message")
 
 	DB, err := OpenDB()
 	Error(err)
@@ -20,21 +27,33 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	if r.Method == http.MethodPost {
 		r.ParseForm()
-
 		send := r.FormValue("message")
 
-		_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, data.User, send)
+		if send == "supp" {
+			_, err = DB.Exec("DELETE FROM posts WHERE id = ? ", postId)
+			Error(err)
+			_, err = DB.Exec("DELETE FROM comments WHERE post_id = ?", postId)
+			Error(err)
+
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+
+		} else if message == "true" {
+
+			_, err = DB.Exec("INSERT INTO comments(post_id,user_id,content) VALUES (?,?,?)", postId, data.User, send)
+
+		}
 		Error(err)
 
 	}
 
 	//on récupère les info du post
-	row, err := DB.Query("SELECT posts.title, posts.description, posts.created_at, users.username, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?", postId)
+	row, err := DB.Query("SELECT posts.title, posts.description, posts.created_at, users.username, posts.id, posts.user_id FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?", postId)
 	Error(err)
 	defer row.Close()
 
 	for row.Next() {
-		err = row.Scan(&p.Title, &p.Content, &data.Date, &p.Pseudo, &p.Id)
+		err = row.Scan(&p.Title, &p.Content, &data.Date, &p.Pseudo, &p.Id, &p.CreatorId)
 		Error(err)
 
 	}
@@ -49,14 +68,14 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	//on récupère tous les commentaire du post
 
-	rows, err := DB.Query("SELECT comments.content, users.username FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?", postId)
+	rows, err := DB.Query("SELECT comments.content, users.username, comments.Id, comments.user_id FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?", postId)
 	Error(err)
 	defer rows.Close()
 
 	for rows.Next() {
 		var com Comment
 
-		err = rows.Scan(&com.Content, &com.Pseudo)
+		err = rows.Scan(&com.Content, &com.Pseudo, &com.Id, &com.CreatorId)
 		Error(err)
 
 		p.Comment = append(p.Comment, com)

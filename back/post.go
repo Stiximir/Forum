@@ -2,8 +2,6 @@ package forum
 
 import (
 	"net/http"
-	"path/filepath"
-	"text/template"
 	"time"
 )
 
@@ -35,13 +33,7 @@ func CreatPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 		}
 
 	}
-	tmplPath := filepath.Join(templatePath, "html", "creatPost.html")
 
-	tmpl, err := template.ParseFiles(tmplPath)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	RenderTemplate(w, "creatPost", data, templatePath)
 
-	tmpl.Execute(w, nil)
 }

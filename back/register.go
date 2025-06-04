@@ -66,5 +66,10 @@ func Register(w http.ResponseWriter, r *http.Request, templatePath string) {
 		}
 	}
 
+	data := map[string]interface{}{
+		"Title": "Connexion",
+		"User":  "",
+	}
+
 	RenderTemplate(w, "register", data, templatePath)
 }

@@ -2,6 +2,7 @@ package forum
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 	"path/filepath"
 )
@@ -20,6 +21,6 @@ func RenderTemplate(w http.ResponseWriter, page string, data any, templatePath s
 
 	err = tmpl.Execute(w, data)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Println("Error RenderTemplate:", err)
 	}
 }

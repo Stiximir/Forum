@@ -15,18 +15,23 @@ func Error(r error) {
 }
 
 type Post struct {
-	Title   string
-	Content string
-	Comment []Comment
-	Id      string
-	Pseudo  string
-	DateD   string
-	DateH   string
+	Title     string
+	Content   string
+	Comment   []Comment
+	CreatorId string
+	Id        string
+	Pseudo    string
+	DateD     string
+	DateH     string
+	LikeCount int
+	HasLiked  bool
 }
 
 type Comment struct {
-	Pseudo  string
-	Content string
+	Pseudo    string
+	Content   string
+	CreatorId string
+	Id        string
 }
 
 type Filter struct {
@@ -57,13 +62,9 @@ func Home(w http.ResponseWriter, r *http.Request, templatePath string) {
 		HomeData.Content.Cat = category
 
 		if category == "" {
-
 			HomeData, Postlist = getPost(HomeData, Postlist)
-
 		} else {
-
 			HomeData, Postlist = getPostFilter(HomeData, Postlist, category)
-
 		}
 
 		HomeData.Post = Postlist
@@ -125,6 +126,14 @@ func getPost(HomeData HomeData, Postlist []Post) (HomeData, []Post) {
 
 		p = getLastCom(p)
 
+		err = DB.QueryRow("SELECT COUNT(*) FROM likes WHERE post_id = ?", p.Id).Scan(&p.LikeCount)
+		Error(err)
+		userID := HomeData.User
+		if userID != "" {
+			err = DB.QueryRow("SELECT EXISTS(SELECT 1 FROM likes WHERE post_id = ? AND user_id = ?)", p.Id, userID).Scan(&p.HasLiked)
+			Error(err)
+		}
+
 		Postlist = append(Postlist, p)
 
 	}
@@ -155,6 +164,14 @@ func getPostFilter(HomeData HomeData, Postlist []Post, category string) (HomeDat
 		p.DateH = t.Format("15:04")
 
 		p = getLastCom(p)
+
+		err = DB.QueryRow("SELECT COUNT(*) FROM likes WHERE post_id = ?", p.Id).Scan(&p.LikeCount)
+		Error(err)
+		userID := HomeData.User
+		if userID != "" {
+			err = DB.QueryRow("SELECT EXISTS(SELECT 1 FROM likes WHERE post_id = ? AND user_id = ?)", p.Id, userID).Scan(&p.HasLiked)
+			Error(err)
+		}
 
 		Postlist = append(Postlist, p)
 	}
