@@ -15,23 +15,25 @@ func Error(r error) {
 }
 
 type Post struct {
-	Title     string
-	Content   string
-	Comment   []Comment
-	CreatorId string
-	Id        string
-	Pseudo    string
-	DateD     string
-	DateH     string
-	LikeCount int
-	HasLiked  bool
+	Title          string
+	Content        string
+	Comment        []Comment
+	ProfilePicture string
+	CreatorId      string
+	Id             string
+	Pseudo         string
+	DateD          string
+	DateH          string
+	LikeCount      int
+	HasLiked       bool
 }
 
 type Comment struct {
-	Pseudo    string
-	Content   string
-	CreatorId string
-	Id        string
+	Pseudo         string
+	Content        string
+	CreatorId      string
+	Id             string
+	ProfilePicture string
 }
 
 type Filter struct {
@@ -106,14 +108,14 @@ func getPost(HomeData HomeData, Postlist []Post) (HomeData, []Post) {
 	Error(err)
 	defer DB.Close()
 
-	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
+	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id , users.profile_picture FROM posts JOIN users ON posts.user_id = users.id ORDER BY posts.created_at DESC")
 	Error(err)
 	defer rows.Close()
 
 	for rows.Next() {
 		var p Post
 
-		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
+		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id, &p.ProfilePicture)
 		Error(err)
 
 		t, err := time.Parse(time.RFC3339, HomeData.Date)
@@ -145,14 +147,14 @@ func getPostFilter(HomeData HomeData, Postlist []Post, category string) (HomeDat
 	Error(err)
 	defer DB.Close()
 
-	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE category_id = ?  ORDER BY posts.created_at DESC", category)
+	rows, err := DB.Query("SELECT posts.title ,users.username, posts.created_at, posts.id , users.profile_picture FROM posts JOIN users ON posts.user_id = users.id WHERE category_id = ?  ORDER BY posts.created_at DESC", category)
 	Error(err)
 	defer rows.Close()
 
 	for rows.Next() {
 		var p Post
 
-		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id)
+		err := rows.Scan(&p.Title, &p.Pseudo, &HomeData.Date, &p.Id, &p.ProfilePicture)
 		Error(err)
 
 		t, err := time.Parse(time.RFC3339, HomeData.Date)

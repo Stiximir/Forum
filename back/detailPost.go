@@ -48,12 +48,12 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 	}
 
 	//on récupère les info du post
-	row, err := DB.Query("SELECT posts.title, posts.description, posts.created_at, users.username, posts.id, posts.user_id FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?", postId)
+	row, err := DB.Query("SELECT posts.title, posts.description, posts.created_at, users.username, posts.id, posts.user_id, users.profile_picture FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?", postId)
 	Error(err)
 	defer row.Close()
 
 	for row.Next() {
-		err = row.Scan(&p.Title, &p.Content, &data.Date, &p.Pseudo, &p.Id, &p.CreatorId)
+		err = row.Scan(&p.Title, &p.Content, &data.Date, &p.Pseudo, &p.Id, &p.CreatorId, &p.ProfilePicture)
 		Error(err)
 
 	}
@@ -68,14 +68,14 @@ func DetailPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 
 	//on récupère tous les commentaire du post
 
-	rows, err := DB.Query("SELECT comments.content, users.username, comments.Id, comments.user_id FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?", postId)
+	rows, err := DB.Query("SELECT comments.content, users.username, comments.Id, comments.user_id, users.profile_picture FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?", postId)
 	Error(err)
 	defer rows.Close()
 
 	for rows.Next() {
 		var com Comment
 
-		err = rows.Scan(&com.Content, &com.Pseudo, &com.Id, &com.CreatorId)
+		err = rows.Scan(&com.Content, &com.Pseudo, &com.Id, &com.CreatorId, &com.ProfilePicture)
 		Error(err)
 
 		p.Comment = append(p.Comment, com)

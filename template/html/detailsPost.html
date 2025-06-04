@@ -7,11 +7,11 @@
             <div class="flex items-center gap-2">
               {{ if ne .Pseudo "Anonym"}}
               <a href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2">
-                <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+                <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
                 <span class="font-semibold">{{.Pseudo}}</span>
               </a>
               {{else}}
-                <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+                  <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
                 <span class="font-semibold">{{.Pseudo}}</span>
               {{end}}
             </div>
@@ -36,11 +36,11 @@
                 <div class="flex items-center gap-2">
                   {{ if ne .Pseudo "Anonym"}}
                   <a href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2">
-                    <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+                      <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
                     <span class="font-semibold">{{.Pseudo}}</span>
                   </a>
                   {{else}}
-                  <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+                  <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
                   <span class="font-semibold">{{.Pseudo}}</span>
                   {{end}}
                 </div>
