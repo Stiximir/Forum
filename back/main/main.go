@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"forum"
+	"log"
 	"net/http"
 	"path/filepath"
 
@@ -10,7 +11,10 @@ import (
 )
 
 func main() {
-	templatePath := "/var/www/Forum/template/"
+	templatePath, err := filepath.Abs(filepath.Join("..", "..", "template/html"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	mux := http.NewServeMux()
 
