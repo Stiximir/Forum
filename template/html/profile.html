@@ -20,8 +20,16 @@
         <span class="text-gray-600 font-medium">Email :</span>
         <span class="text-gray-800">{{.Email}}</span>
       </div>
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600 font-medium">Likes :</span>
+        <span class="text-gray-800">{{.Likes}}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600 font-medium">Posts :</span>
+        <span class="text-gray-800">{{.Posts}}</span>
+      </div>
     </div>
-
+    {{if eq .RealUser .ID}}
     <div class="flex flex-col md:flex-row justify-between items-center gap-4 pt-6">
       <button type="submit"
         class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-full transition transform hover:scale-105">
@@ -32,7 +40,7 @@
         Modifier le profil
       </a>
     </div>
-    
+    {{end}}
   </form>
 </div>
 {{end}}
