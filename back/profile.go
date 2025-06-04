@@ -31,6 +31,8 @@ func Delete(db *sql.DB, idd string) {
 
 	idAnonym := 0
 
+	fmt.Println(idd)
+
 	_, err := db.Exec("UPDATE posts SET user_id = ? WHERE user_id = ? ", idAnonym, idd)
 	Error(err)
 
