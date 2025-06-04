@@ -10,10 +10,11 @@ import (
 )
 
 type User struct {
-	ID       int
-	Username string
-	Email    string
-	Password string
+	ID             int
+	Username       string
+	Email          string
+	Password       string
+	ProfilePicture string
 }
 
 type Likes struct {
@@ -37,14 +38,14 @@ func Delete(db *sql.DB, id string) (int64, error) {
 
 func GetRecentSearches(db *sql.DB) []User {
 	var searches []User
-	row, err := db.Query("SELECT id, username, email, password FROM users WHERE id = ?", UserP)
+	row, err := db.Query("SELECT id, username, email, password, profile_picture FROM users WHERE id = ?", UserP)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
 	for row.Next() {
 		item := User{}
-		err := row.Scan(&item.ID, &item.Username, &item.Email, &item.Password)
+		err := row.Scan(&item.ID, &item.Username, &item.Email, &item.Password, &item.ProfilePicture)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -97,6 +98,10 @@ func DBprofile(db *sql.DB, nil error) {
 		data.ID = strconv.Itoa(item.ID)
 		data.Username = item.Username
 		data.Email = item.Email
+		data.ProfilePicture = item.ProfilePicture
+		if item.ProfilePicture == "" {
+			data.ProfilePicture = "default.png" // Default profile picture if none is set
+		}
 	}
 	for _, item := range searchesLikes {
 		data.Likes = item.Likes
@@ -107,15 +112,16 @@ func DBprofile(db *sql.DB, nil error) {
 }
 
 type Data struct {
-	ID          string
-	Username    string
-	Email       string
-	User        string
-	Likes       int
-	Posts       int
-	UserP       string
-	RealUser    string
-	PostProfile []Post
+	ID             string
+	Username       string
+	Email          string
+	User           string
+	Likes          int
+	Posts          int
+	UserP          string
+	RealUser       string
+	PostProfile    []Post
+	ProfilePicture string
 }
 
 var data = Data{}
