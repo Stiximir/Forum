@@ -54,6 +54,10 @@ func main() {
 		forum.UpdateComment(w, r, templatePath)
 	})
 
+	mux.HandleFunc("/deleteCom", func(w http.ResponseWriter, r *http.Request) {
+		forum.DeleteCom(w, r, templatePath)
+	})
+
 	fmt.Println("Server started on http://localhost:8080")
 	http.ListenAndServe(":8080", mux)
 }

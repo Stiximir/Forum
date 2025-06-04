@@ -14,15 +14,24 @@ type User struct {
 	Password string
 }
 
-var UserP string = "2"
+var UserP string
 
-func Delete(db *sql.DB, id string) (int64, error) {
-	sql := `DELETE FROM users WHERE id = ?;`
-	result, err := db.Exec(sql, id)
-	if err != nil {
-		return 0, err
-	}
-	return result.RowsAffected()
+func Delete(db *sql.DB, idd string) {
+
+	idAnonym := 0
+
+	_, err := db.Exec("UPDATE posts SET user_id = ? WHERE user_id = ? ", idAnonym, idd)
+	Error(err)
+
+	_, err = db.Exec("DELETE FROM likes WHERE user_id = ? ", idd)
+	Error(err)
+
+	_, err = db.Exec("UPDATE comments SET user_id = ? WHERE user_id = ?", idAnonym, idd)
+	Error(err)
+
+	_, err = db.Exec("DELETE FROM users WHERE id = ?", idd)
+	Error(err)
+
 }
 
 func GetRecentSearches(db *sql.DB) []User {
@@ -72,12 +81,14 @@ func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
 	UserP = r.URL.Query().Get("userId")
 
 	if r.Method == http.MethodPost {
-		_, err = Delete(db, UserP)
+		Delete(db, UserP)
 		if err != nil {
 			fmt.Println(err)
-			return
 		}
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
+
 	data.User = "1"
 	DBprofile(db, nil)
 
