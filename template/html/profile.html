@@ -1,9 +1,42 @@
 {{define "content"}}
-<div class="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
-  <form method="POST" action="/profile" id="form" class="w-full max-w-xl bg-white rounded-xl shadow-lg p-8 space-y-6">
-    
+<div class="min-h-screen bg-gray-100 flex flex-row items-start justify-center py-10 px-4 gap-8">
+
+  <div class="w-72 min-h-[400px] bg-white rounded-xl shadow-lg p-4 flex flex-col items-start justify-start">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Posts</h2>
+    {{range .PostProfile}}
+
+  
+    <div class="bg-sky-300 rounded-xl shadow-md p-4 flex flex-col justify-between h-80 hover:shadow-lg transition animate-fade-in">
+      <div class="flex items-center justify-between text-white text-sm mb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+          <span class="font-semibold">{{.Pseudo}}</span>
+        </div>
+        <div class="text-right leading-tight">
+          <p>{{.DateD}}</p>
+          <p>{{.DateH}}</p>
+        </div>
+      </div>
+
+      <a href="/detailPost?postId={{.Id}}">    
+
+      <div class="flex-1 flex items-center justify-center text-3xl font-bold text-white text-center px-2">
+        {{.Title}}
+      </div>
+      </a>
+
+      </a>
+
+      <div class="flex items-center justify-between mt-4">
+        <div class="bg-white w-6 h-6 flex items-center justify-center rounded text-sky-500 font-semibold text-sm">23</div>
+      </div>
+    </div>
+    {{end}}
+  </div>
+
+  <form method="POST" action="/profile" id="form" class="w-full max-w-xl bg-white rounded-xl shadow-lg p-8 space-y-6 flex-shrink-0">
     <div class="text-center">
-      <h1 class="text-2xl font-bold text-gray-800 mb-2">Profil utilisateur</h1>
+      <h1 class="text-2xl font-bold text-gray-800 mb-2 mt-4">Profil utilisateur</h1>
       <p class="text-gray-500 text-sm">Voici les informations de votre compte</p>
     </div>
 
@@ -42,5 +75,9 @@
     </div>
     {{end}}
   </form>
+
+  <div class="w-72 min-h-[400px] bg-white rounded-xl shadow-lg p-4 flex flex-col items-start justify-start">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Commentaires</h2>
+  </div>
 </div>
 {{end}}

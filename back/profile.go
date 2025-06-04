@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type User struct {
@@ -41,7 +42,7 @@ func GetRecentSearches(db *sql.DB) []User {
 		log.Fatal(err)
 	}
 	defer row.Close()
-	for row.Next() { // Iterate and fetch the records from result cursor
+	for row.Next() {
 		item := User{}
 		err := row.Scan(&item.ID, &item.Username, &item.Email, &item.Password)
 		if err != nil {
@@ -59,7 +60,7 @@ func GetLikes(db *sql.DB) []Likes {
 		log.Fatal(err)
 	}
 	defer row.Close()
-	for row.Next() { // Iterate and fetch the records from result cursor
+	for row.Next() {
 		item := Likes{}
 		err := row.Scan(&item.Likes)
 		if err != nil {
@@ -77,7 +78,7 @@ func GetPosts(db *sql.DB) []Posts {
 		log.Fatal(err)
 	}
 	defer row.Close()
-	for row.Next() { // Iterate and fetch the records from result cursor
+	for row.Next() {
 		item := Posts{}
 		err := row.Scan(&item.Posts)
 		if err != nil {
@@ -92,38 +93,65 @@ func DBprofile(db *sql.DB, nil error) {
 	searches := GetRecentSearches(db)
 	searchesLikes := GetLikes(db)
 	searchesPosts := GetPosts(db)
-	fmt.Printf("ID\tUsername\tEmail\n")
 	for _, item := range searches {
-		fmt.Printf("%d\t%s\t%s\n", item.ID, item.Username, item.Email)
 		data.ID = strconv.Itoa(item.ID)
 		data.Username = item.Username
 		data.Email = item.Email
 	}
 	for _, item := range searchesLikes {
-		fmt.Printf("Likes: %d\n", item.Likes)
 		data.Likes = item.Likes
 	}
 	for _, item := range searchesPosts {
-		fmt.Printf("Posts: %d\n", item.Posts)
 		data.Posts = item.Posts
 	}
 }
 
 type Data struct {
-	ID       string
-	Username string
-	Email    string
-	User     string
-	Likes    int
-	Posts    int
-	UserP    string
-	RealUser string
+	ID          string
+	Username    string
+	Email       string
+	User        string
+	Likes       int
+	Posts       int
+	UserP       string
+	RealUser    string
+	PostProfile []Post
 }
 
 var data = Data{}
 
-func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
+func getPostProfile(userID string) []Post {
+	DB, err := OpenDB()
+	Error(err)
+	defer DB.Close()
 
+	rows, err := DB.Query("SELECT posts.title, users.username, posts.created_at, posts.id FROM posts JOIN users ON posts.user_id = users.id WHERE users.id = ? ORDER BY posts.created_at DESC", userID)
+	Error(err)
+	defer rows.Close()
+
+	var Postlist []Post
+	var dateStr string
+
+	for rows.Next() {
+		var p Post
+		err := rows.Scan(&p.Title, &p.Pseudo, &dateStr, &p.Id)
+		Error(err)
+
+		t, err := time.Parse(time.RFC3339, dateStr)
+		if err != nil {
+			t = time.Now()
+		}
+
+		p.DateD = t.Format("2006/01/02")
+		p.DateH = t.Format("15:04")
+
+		p = getLastCom(p)
+		Postlist = append(Postlist, p)
+	}
+	return Postlist
+}
+
+func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
 	db, err := OpenDB()
 	Error(err)
 	defer db.Close()
@@ -143,6 +171,7 @@ func Profile(w http.ResponseWriter, r *http.Request, templatePath string) {
 	data.User = "1"
 	DBprofile(db, nil)
 
-	RenderTemplate(w, "profile", data, templatePath)
+	data.PostProfile = getPostProfile(UserP)
 
+	RenderTemplate(w, "profile", data, templatePath)
 }
