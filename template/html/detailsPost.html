@@ -5,8 +5,10 @@
         <div class="bg-[#6d91ac] rounded-md p-4 w-full md:w-1/3 text-white shadow">
           <div class="flex justify-between items-center mb-2 text-sm">
             <div class="flex items-center gap-2">
-              <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
-              <span class="font-semibold">{{.Pseudo}}</span>
+              <a href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2">
+                <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+                <span class="font-semibold">{{.Pseudo}}</span>
+              </a>
             </div>
             <div class="text-xs text-right">{{.DateD}}<br />{{.DateH}}</div>
           </div>
@@ -25,9 +27,12 @@
           <div class="bg-white rounded-md shadow p-4 space-y-4">
           {{range .Comment}}
             <div class="flex items-start gap-2 border border-gray-600 rounded-md p-2">
-              <div class="w-6 h-6 bg-gray-300 rounded-full">PP</div>
               <div>
-                <p class="font-semibold">{{.Pseudo}}</p>
+                <a href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2">
+                  <div class="w-6 h-6 bg-gray-300 rounded-full">PP</div>
+                  <p class="font-semibold">{{.Pseudo}}</p>
+                </a>
+                
                 <div id="comment-{{.Id}}" class="border-l border-white pl-2 text-sm" {{if eq .CreatorId $.User}} contenteditable="true" {{end}}>
                   {{.Content}}
                 </div>

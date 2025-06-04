@@ -9,8 +9,10 @@
     <div class="bg-sky-300 rounded-xl shadow-md p-4 flex flex-col justify-between h-80 hover:shadow-lg transition animate-fade-in">
       <div class="flex items-center justify-between text-white text-sm mb-2">
         <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-full bg-gray-300"></div>
-          <span class="font-semibold">{{.Pseudo}}</span>
+          <a {{if eq .Pseudo ""}}href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-gray-300"></div>
+            <span class="font-semibold">{{.Pseudo}}</span>
+          </a>
         </div>
         <div class="text-right leading-tight">
           <p>{{.DateD}}</p>
