@@ -5,13 +5,6 @@ import (
 	"time"
 )
 
-func requestPost(Title string, content string) {
-
-	DB, err := OpenDB()
-	Error(err)
-	defer DB.Close()
-}
-
 func CreatPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 	if r.Method == http.MethodPost {
 
@@ -32,6 +25,9 @@ func CreatPost(w http.ResponseWriter, r *http.Request, templatePath string) {
 			Error(err)
 		}
 
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+
+		return
 	}
 
 	RenderTemplate(w, "creatPost", data, templatePath)

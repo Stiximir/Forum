@@ -18,9 +18,18 @@ var UserP string
 
 func Delete(db *sql.DB, idd string) {
 
-	unk := "Anonym"
-	nul := "null"
-	_, err := db.Exec("UPDATE users SET username = ? ,email = ? , password = ? , profile_picture = ? WHERE id = ? ", unk, unk, unk, nul, idd)
+	idAnonym := 0
+
+	_, err := db.Exec("UPDATE posts SET user_id = ? WHERE user_id = ? ", idAnonym, idd)
+	Error(err)
+
+	_, err = db.Exec("DELETE FROM likes WHERE user_id = ? ", idd)
+	Error(err)
+
+	_, err = db.Exec("UPDATE comments SET user_id = ? WHERE user_id = ?", idAnonym, idd)
+	Error(err)
+
+	_, err = db.Exec("DELETE FROM users WHERE id = ?", idd)
 	Error(err)
 
 }
