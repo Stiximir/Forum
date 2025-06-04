@@ -21,6 +21,7 @@ func main() {
 	mux.Handle("/html/", http.StripPrefix("/html", http.FileServer(http.Dir(filepath.Join(templatePath, "html")))))
 	mux.Handle("/css/", http.StripPrefix("/css", http.FileServer(http.Dir(filepath.Join(templatePath, "css")))))
 	mux.Handle("/picture/", http.StripPrefix("/picture", http.FileServer(http.Dir(filepath.Join(templatePath, "picture")))))
+	mux.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("../uploads"))))
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		forum.Home(w, r, templatePath)
