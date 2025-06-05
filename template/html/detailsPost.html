@@ -1,158 +1,141 @@
 {{define "content"}}
-<div class="p-4 md:p-8 bg-[#90b0cb] min-h-screen">
-      <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
-        {{range .Post}}
-        <div class="bg-[#6d91ac] rounded-md p-4 w-full md:w-1/3 text-white shadow">
-          <div class="flex justify-between items-center mb-2 text-sm">
-            <div class="flex items-center gap-2">
-              {{ if ne .Pseudo "Anonym"}}
-              <a href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2">
-                <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
-                <span class="font-semibold">{{.Pseudo}}</span>
-              </a>
-              {{else}}
-                  <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
-                <span class="font-semibold">{{.Pseudo}}</span>
-              {{end}}
-            </div>
-            <div class="text-xs text-right">{{.DateD}}<br />{{.DateH}}</div>
-          </div>
-          <div class="bg-white text-black text-center font-bold py-8 my-4 rounded-md">
-            {{.Title}}
-          </div>
-          <div id="content" class="border-l border-white pl-2 text-sm" {{if eq .CreatorId $.User}} contenteditable="true" {{end}}>  
-            {{.Content}}
-          </div>
-          {{if eq .CreatorId $.User}}
-          <button style="background-color: transparent; border: none; cursor: pointer;" onclick="savePost()">Modifier</button> 
-          {{end}} 
+<div class="p-4 md:p-8 bg-[#F2EBDB] min-h-screen font-sans">
+  <div class="max-w-6xl mx-auto flex flex-col gap-8">
+    {{range .Post}}
+    <div class="bg-white rounded-xl shadow-lg p-6 space-y-6">
+      <!-- Auteur -->
+      <div class="flex justify-between items-center text-gray-600 text-sm">
+        <div class="flex items-center gap-4">
+          {{if ne .Pseudo "Anonym"}}
+          <a href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2 hover:underline">
+            <img src="{{.ProfilePicture}}" alt="Profil" class="w-12 h-12 rounded-full object-cover border">
+            <span class="font-semibold text-gray-800">{{.Pseudo}}</span>
+          </a>
+          {{else}}
+          <img src="{{.ProfilePicture}}" alt="Profil" class="w-12 h-12 rounded-full object-cover border">
+          <span class="font-semibold text-gray-800">{{.Pseudo}}</span>
+          {{end}}
         </div>
+        <div class="text-xs text-right text-gray-500">{{.DateD}}<br>{{.DateH}}</div>
+      </div>
 
-        <div class="flex-1 space-y-4">
-          <div class="bg-white rounded-md shadow p-4 space-y-4">
-          {{range .Comment}}
-            <div class="flex items-start gap-2 border border-gray-600 rounded-md p-2">
-              <div>
-                <div class="flex items-center gap-2">
-                  {{ if ne .Pseudo "Anonym"}}
-                  <a href="/profile?userId={{.CreatorId}}" class="flex items-center gap-2">
-                      <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
-                    <span class="font-semibold">{{.Pseudo}}</span>
-                  </a>
-                  {{else}}
-                  <img src="{{.ProfilePicture}}" alt="Photo de profil" class="w-16 h-16 rounded-full object-cover border">
-                  <span class="font-semibold">{{.Pseudo}}</span>
-                  {{end}}
+      <!-- Titre -->
+      <div class="text-center text-xl font-bold text-[#1a2b3c] border-b pb-2">{{.Title}}</div>
+
+      <!-- Contenu -->
+      <div id="content" class="text-gray-800 text-base leading-relaxed" {{if eq .CreatorId $.User}} contenteditable="true" {{end}}>
+        {{.Content}}
+      </div>
+      {{if eq .CreatorId $.User}}
+      <button onclick="savePost()" class="text-blue-600 hover:underline font-medium text-sm">💾 Enregistrer les modifications</button>
+      {{end}}
+
+      <!-- Commentaires -->
+      <div class="mt-6 space-y-4">
+        {{range .Comment}}
+        <div class="bg-gray-100 rounded-md p-4">
+          <div class="flex items-start gap-3">
+            <img src="{{.ProfilePicture}}" alt="Profil" class="w-10 h-10 rounded-full object-cover border">
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <span class="font-semibold text-sm text-gray-700">{{.Pseudo}}</span>
+                {{if eq .CreatorId $.User}}
+                <div class="space-x-2">
+                  <button onclick="saveComment({{.Id}})" class="text-green-600 hover:underline text-xs">Modifier</button>
+                  <button onclick="deleteCom({{.Id}})" class="text-red-600 hover:underline text-xs">Supprimer</button>
                 </div>
-                <div id="comment-{{.Id}}" class="border-l border-white pl-2 text-sm" {{if eq .CreatorId $.User}} contenteditable="true" {{end}}>
-                  {{.Content}}
-                </div>
+                {{end}}
               </div>
-              {{if eq .CreatorId $.User}}
-                <button style="background-color: transparent; border: none; cursor: pointer;" onclick="saveComment({{.Id}})">Modifier</button> 
-                <button style="background-color: transparent; border: none; cursor: pointer;" onclick="deleteCom({{.Id}})">Supprimer</button>
-              {{end}}
+              <div id="comment-{{.Id}}" class="text-sm mt-1 text-gray-700" {{if eq .CreatorId $.User}} contenteditable="true" {{end}}>
+                {{.Content}}
+              </div>
             </div>
-            {{end}}
           </div>
         </div>
         {{end}}
       </div>
-
-      {{if ne .User ""}}
-      <form id="chat" method="post" action="/detailPost?postId={{range .Post}}{{.Id}}{{end}}&message=true">
-        <div class="mt-2 max-w-6xl mx-auto flex gap-2">
-          <input
-          type="text"
-          id="message"
-          name="message"
-          placeholder="Send a message .."
-          class="flex-1 rounded-full px-4 py-2 bg-white text-sm shadow border focus:outline-none"
-          />
-          <button type="submit" 
-          class="bg-[#e2d3b7] hover:bg-[#d8c7aa] text-slate-800 font-semibold px-4 py-2 rounded-full transition">
-            Envoyer
-          </button>
-        </div>
-      </form>
-      {{end}}
-
-      {{range .Post}}
-        {{if eq .CreatorId $.User}}
-          <Button onclick = supp()
-          name="supp">
-          supprimer 
-          </Button>
-        {{end}}
-      {{end}}
-
-      <script>
-
-      
-
-        function supp(){
-          document.getElementById('message').value='supp'
-          document.getElementById('chat').submit()
-        }
-
-         function savePost() {
-    const content = document.getElementById('content').innerText;
-
-    fetch('/updatePost', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-        {{range .Post}}
-      body: JSON.stringify({ id: {{.Id}}, text: content }) {{end}}
-      })
-    .then(response => {
-      if (response.ok) {
-        alert("Post mis à jour !");
-      } else {
-        alert("Erreur lors de la mise à jour.");
-      }
-    });
-  }
-
-        function saveComment(commentId) {
-          event.preventDefault();
-  const content = document.getElementById('comment-' + commentId).innerText;
-  fetch('/updateComment', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ id: commentId, text: content })
-  })
-  .then(response => {
-    if (response.ok) {
-      alert("Commentaire mis à jour !");
-      window.location.href = '/detailPost?postId={{range .Post}}{{.Id}}{{end}}&message=false';
-    } else {
-      alert("Erreur lors de la mise à jour.");
-    }
-  });
-}
-
-function deleteCom(id){
-  fetch("/deleteCom",{
-    method: 'POST',
-    headers: {
-      "Content-Type" : "application/json"
-    },
-    body: JSON.stringify({id:id})
-  }).then(reponse => {
-    if (reponse.ok){
-      alert("Commentaire Delete")
-      window.location.href = '/detailPost?postId={{range .Post}}{{.Id}}{{end}}&message=false';
-    } else {
-      alert("Erreur lors du delet")
-    }
-  })
-}
-
-      </script>
-
     </div>
- {{end}}
+
+    {{end}}
+
+    <!-- Zone commentaire -->
+    {{if ne .User ""}}
+    <form id="chat" method="post" action="/detailPost?postId={{range .Post}}{{.Id}}{{end}}&message=true" class="flex items-center gap-2">
+      <input
+        type="text"
+        id="message"
+        name="message"
+        placeholder="Ajouter un commentaire..."
+        class="flex-1 rounded-full px-4 py-2 bg-white text-sm shadow border focus:outline-none"
+      />
+      <button type="submit" class="bg-[#e2d3b7] hover:bg-[#d8c7aa] text-slate-800 font-semibold px-4 py-2 rounded-full">
+        Envoyer
+      </button>
+    </form>
+    {{end}}
+
+    <!-- Suppression du post -->
+    {{range .Post}}
+    {{if eq .CreatorId $.User}}
+    <button onclick="supp()" class="mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow w-fit mx-auto">
+      Supprimer le post
+    </button>
+    {{end}}
+    {{end}}
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    function supp() {
+      document.getElementById('message').value = 'supp';
+      document.getElementById('chat').submit();
+    }
+
+    function savePost() {
+      const content = document.getElementById('content').innerText;
+      fetch('/updatePost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: {{range .Post}}{{.Id}}{{end}}, text: content })
+      }).then(response => {
+        if (response.ok) {
+          alert("Post mis à jour !");
+        } else {
+          alert("Erreur lors de la mise à jour.");
+        }
+      });
+    }
+
+    function saveComment(commentId) {
+      const content = document.getElementById('comment-' + commentId).innerText;
+      fetch('/updateComment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: commentId, text: content })
+      }).then(response => {
+        if (response.ok) {
+          alert("Commentaire mis à jour !");
+          window.location.href = '/detailPost?postId={{range .Post}}{{.Id}}{{end}}&message=false';
+        } else {
+          alert("Erreur lors de la mise à jour.");
+        }
+      });
+    }
+
+    function deleteCom(id) {
+      fetch("/deleteCom", {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: id })
+      }).then(response => {
+        if (response.ok) {
+          alert("Commentaire supprimé");
+          window.location.href = '/detailPost?postId={{range .Post}}{{.Id}}{{end}}&message=false';
+        } else {
+          alert("Erreur lors de la suppression");
+        }
+      });
+    }
+  </script>
+</div>
+{{end}}
