@@ -1,34 +1,43 @@
 {{define "navbar"}}
-<nav class="bg-sky-700 p-4 flex justify-between items-center">
-    <div class="flex items-center gap-2">
+<nav class="bg-sky-800 text-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
         <img src="https://i.ibb.co/Sw51Rqr9/A-logo-emblem-for-SKLAND-an-outdoor-rock-climbi.png" alt="Logo"
-            class="h-10 w-10 rounded-10" />
-    </div>
-    <div class="flex gap-2">
-        <ul class="flex gap-4 text-white font-medium">
-            <li class="text-sky-100"><a href="/home">Acceuil</a></li>
-            <li class="text-sky-100"><a href="/creatPost">Création de post</a></li>
-        </ul>
-    </div>
-    <div class="flex items-center gap-2">
-        <input type="text" placeholder="Search.." class="rounded-md px-4 py-1 bg-blue-100 focus:outline-none" />
-        <button class="bg-blue-100 px-4 py-1 rounded-md text-sky-800 font-medium">Loupe</button>
-        {{if ne .User ""}}
-        <a href="/profile?userId={{.User}}"
-            class="text-sky-100 hover:text-sky-200 font-medium">Mon Profil</a>
-            <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-            <a href="/home" onclick="deletCookieUser()"
-            class="text-sky-100 hover:text-sky-200 font-medium">Déconnection</a> 
-        {{else}}
-        <a href="/login"
-            class="text-sky-100 hover:text-sky-200 font-medium">Connection</a>
-        {{end}}
-    </div>
-    <script>
+          class="h-10 w-10 rounded-full border border-white" />
+        <span class="text-xl font-bold tracking-wide">SKLAND</span>
+      </div>
 
-        function deletCookieUser(){
-            document.cookie = 'user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-        }
-    </script>
+      <!-- Navigation Links -->
+      <ul class="hidden md:flex gap-6 text-sm font-medium">
+        <li><a href="/home" class="hover:text-sky-300 transition">Accueil</a></li>
+        <li><a href="/creatPost" class="hover:text-sky-300 transition">Créer un post</a></li>
+      </ul>
+
+      <!-- Actions (Search + User) -->
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2 bg-white rounded-full px-3 py-1">
+          <input type="text" placeholder="Rechercher..." class="bg-transparent text-sm text-gray-700 focus:outline-none w-32" />
+          <button class="text-sky-800 font-semibold text-sm hover:underline">🔍</button>
+        </div>
+
+        {{if ne .User ""}}
+        <a href="/profile?userId={{.User}}" class="hover:text-sky-300 font-medium text-sm">Mon Profil</a>
+        <div class="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center text-gray-700 font-bold text-sm">U</div>
+        <a href="/home" onclick="deletCookieUser()" class="hover:text-red-300 font-medium text-sm">Déconnexion</a>
+        {{else}}
+        <a href="/login" class="hover:text-sky-300 font-medium text-sm">Connexion</a>
+        {{end}}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function deletCookieUser() {
+      document.cookie = 'user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+    }
+  </script>
 </nav>
 {{end}}
